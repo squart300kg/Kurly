@@ -14,7 +14,7 @@ dependencyResolutionManagement {
   }
 }
 
-rootProject.name = "ArchitectureSample"
+rootProject.name = "Kurly"
 include(":app")
 include(":feature:home")
 include(":core:ui")
