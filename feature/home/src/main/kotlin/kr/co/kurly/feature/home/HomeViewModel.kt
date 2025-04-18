@@ -44,7 +44,10 @@ sealed interface HomeUiEvent : UiEvent {
 }
 
 sealed interface HomeUiSideEffect : UiSideEffect {
-  data object Load : HomeUiSideEffect
+  sealed interface Load : HomeUiSideEffect {
+    data object First : Load
+    data class More(val pageId: Int) : Load
+  }
 }
 
 @HiltViewModel
@@ -63,16 +66,7 @@ class HomeViewModel @Inject constructor(
     }
   }
 
-  init {
-    viewModelScope.launch {
-      getProductsUseCase()
-        .onStart {  }
-        .catch { setErrorState(it) }
-        .collect {
-
-        }
-    }
-  }
+  init { setEffect { HomeUiSideEffect.Load.First } }
 
   fun fetchData() {
     viewModelScope.launch {
