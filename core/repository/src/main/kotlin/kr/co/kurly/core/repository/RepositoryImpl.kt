@@ -3,7 +3,6 @@ package kr.co.kurly.core.repository
 import com.skydoves.sandwich.suspendOperator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import kr.co.kurly.core.network.RemoteApi
 import kr.co.kurly.core.network.operator.ResponseBaseOperator
 import kr.co.kurly.core.repository.Repository
 import kr.co.kurly.core.repository.dto.ArticleDto

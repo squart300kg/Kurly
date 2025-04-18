@@ -9,7 +9,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kr.co.kurly.core.network.BuildConfig
-import kr.co.kurly.core.network.RemoteApi
 import kr.co.kurly.core.network.FileProvider
 import kr.co.kurly.core.network.AssetFileProvider
 import kr.co.kurly.core.network.interceptor.MockInterceptor
