@@ -4,12 +4,16 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kr.co.kurly.core.domain.GetProductsUseCase
+import kr.co.kurly.core.domain.model.SectionProductDomainResponse
 import kr.co.kurly.core.repository.ProductRepository
+import kr.co.kurly.core.repository.dto.SectionDtoResponse
+import kr.co.kurly.core.repository.dto.SectionProductDtoResponse
 import kr.co.kurly.core.ui.BaseViewModel
 import kr.co.kurly.core.ui.UiEvent
 import kr.co.kurly.core.ui.UiSideEffect
@@ -21,21 +25,24 @@ enum class HomeUiType {
   LOADED
 }
 
-data class UiModel(
-  val name: String
+data class HomeUiModel(
+  val section: SectionDtoResponse,
+  val products: ImmutableList<SectionProductDtoResponse>
 ) {
-//  companion object {
-//    fun mapperToUi(dtos: List<ArticleDto>): ImmutableList<UiModel> {
-//      return dtos
-//        .map { UiModel(it.name) }
-//        .toImmutableList()
-//    }
-//  }
+  companion object {
+    fun mapperToUiModel(domainResponse: List<SectionProductDomainResponse>): ImmutableList<HomeUiModel> {
+      return domainResponse
+        .map { HomeUiModel(
+          section = it.section,
+          products = it.products.toImmutableList()) }
+        .toImmutableList()
+    }
+  }
 }
 
 data class HomeUiState(
   val uiType: HomeUiType = HomeUiType.NONE,
-  val uiModels: ImmutableList<UiModel> = persistentListOf(),
+  val homeUiModel: ImmutableList<HomeUiModel> = persistentListOf(),
   val isLoading: Boolean = false
 ) : UiState
 
@@ -70,21 +77,17 @@ class HomeViewModel @Inject constructor(
 
   fun fetchData() {
     viewModelScope.launch {
-
-
-
-      productRepository.getSectionProduct(2)
+      getProductsUseCase(page = 1)
         .onStart { }
         .onCompletion { }
         .catch { setErrorState(it) }
         .collect {
-          println("apiResultLog : ${it.data}")
-//          setState {
-//            copy(
-//              uiType = FirstUiType.LOADED,
-//              uiModels = UiModel.mapperToUi(it)
-//            )
-//          }
+          setState {
+            copy(
+              uiType = HomeUiType.LOADED,
+              homeUiModel = HomeUiModel.mapperToUiModel(it)
+            )
+          }
         }
     }
   }

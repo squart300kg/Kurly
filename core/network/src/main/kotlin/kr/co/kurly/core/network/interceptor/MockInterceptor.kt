@@ -20,8 +20,6 @@ class MockInterceptor(context: Context) : Interceptor {
 
     val responseString = mockServer.get(chain.request())
 
-    println("apiResultLog mockInterceptor : $responseString")
-
     return chain.proceed(chain.request())
       .newBuilder()
       .apply {

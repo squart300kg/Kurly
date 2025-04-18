@@ -59,7 +59,7 @@ fun HomeScreen(
     HomeUiType.NONE -> {}
     HomeUiType.LOADED -> {
       LazyColumn(modifier) {
-        items(uiState.uiModels) { item ->
+        items(uiState.homeUiModel) { item ->
           Text(
             modifier = Modifier
                 .padding(8.dp)
