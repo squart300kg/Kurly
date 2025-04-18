@@ -8,7 +8,8 @@ data class SectionProductDtoResponse(
   val image: String,
   val isSoldOut: Boolean,
   val name: String,
-  val originalPrice: Int
+  val originalPrice: Int,
+  val isFavorite: Boolean
 ) {
   companion object {
     fun mapperToDto(apiResponse: SectionProductApiResponse) = SectionProductDtoResponse(
@@ -17,7 +18,8 @@ data class SectionProductDtoResponse(
       image = apiResponse.image,
       isSoldOut = apiResponse.isSoldOut,
       name = apiResponse.name,
-      originalPrice = apiResponse.originalPrice
+      originalPrice = apiResponse.originalPrice,
+      isFavorite = false
     )
   }
 }
