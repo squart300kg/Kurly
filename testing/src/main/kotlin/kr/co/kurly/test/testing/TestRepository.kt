@@ -1,8 +1,5 @@
 package kr.co.kurly.test.testing
 
-import kotlinx.coroutines.flow.Flow
-import kr.co.kurly.core.repository.Repository
-
 //class TestRepository : Repository {
 //    override val list: Flow<Result<ArticleListDto>>
 //        get() = TODO("Not yet implemented")

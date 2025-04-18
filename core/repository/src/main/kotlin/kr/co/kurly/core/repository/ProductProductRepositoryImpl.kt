@@ -4,13 +4,12 @@ import com.skydoves.sandwich.suspendOperator
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kr.co.kurly.core.network.operator.ResponseBaseOperator
-import kr.co.kurly.core.repository.Repository
 import kr.co.kurly.core.repository.dto.ArticleDto
 import javax.inject.Inject
 
-class RepositoryImpl @Inject constructor(
+class ProductProductRepositoryImpl @Inject constructor(
   private val remoteApi: RemoteApi
-) : Repository {
+) : ProductRepository {
 
   override fun getList(): Flow<List<ArticleDto>> {
     return flow {

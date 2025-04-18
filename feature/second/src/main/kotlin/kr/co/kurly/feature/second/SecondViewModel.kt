@@ -13,7 +13,7 @@ import kr.co.kurly.core.ui.BaseViewModel
 import kr.co.kurly.core.ui.UiEvent
 import kr.co.kurly.core.ui.UiSideEffect
 import kr.co.kurly.core.ui.UiState
-import kr.co.kurly.core.repository.Repository
+import kr.co.kurly.core.repository.ProductRepository
 import kr.co.kurly.core.repository.dto.ArticleDto
 import javax.inject.Inject
 
@@ -49,7 +49,7 @@ sealed interface SecondUiSideEffect : UiSideEffect {
 
 @HiltViewModel
 class SecondViewModel @Inject constructor(
-  private val repository: Repository,
+  private val productRepository: ProductRepository,
 ) : BaseViewModel<SecondUiState, SecondUiEvent, SecondUiSideEffect>() {
 
   override fun createInitialState(): SecondUiState {
@@ -68,7 +68,7 @@ class SecondViewModel @Inject constructor(
 
   fun fetchData() {
     viewModelScope.launch {
-      repository.getList()
+      productRepository.getList()
         .onStart { }
         .onCompletion { }
         .catch { setErrorState(it) }

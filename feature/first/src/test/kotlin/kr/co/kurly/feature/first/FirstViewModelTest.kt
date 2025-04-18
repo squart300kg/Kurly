@@ -1,6 +1,5 @@
 package kr.co.kurly.feature.first
 
-import kr.co.kurly.feature.first.FirstViewModel
 import kr.co.kurly.testing.TestRepository
 import kr.co.kurly.test.testing.util.MainDispatcherRule
 import org.junit.Before
@@ -17,7 +16,7 @@ class FirstViewModelTest {
   @Before
   fun setup() {
     viewModel = FirstViewModel(
-      repository = newsRepository
+      productRepository = newsRepository
     )
   }
 
