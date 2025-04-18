@@ -67,7 +67,7 @@ class FirstViewModel @Inject constructor(
 
   fun fetchData() {
     viewModelScope.launch {
-      productRepository.getList()
+      productRepository.getSectionProduct(2)
         .onStart { }
         .onCompletion { }
         .catch { setErrorState(it) }
