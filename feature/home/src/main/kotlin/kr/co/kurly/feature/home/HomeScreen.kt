@@ -1,25 +1,39 @@
 package kr.co.kurly.feature.home
 
+import android.text.TextUtils
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.scrollable
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import coil.compose.rememberAsyncImagePainter
+import kr.co.architecture.feature.home.R
 import kr.co.kurly.core.model.SectionType
 
 const val HOME_BASE_ROUTE = "homeBaseRoute"
@@ -70,11 +84,28 @@ fun HomeScreen(
             SectionType.HORIZONTAL -> {
               Row(
                 modifier = Modifier
+                  .fillMaxWidth()
+                  .horizontalScroll(rememberScrollState()),
               ) {
-//                Image(
-//                  painter = ,
-//                  contentDescription = null,
-//                )
+                homeUiModel.products.forEach { product ->
+                  Column {
+                    Image(
+                      modifier = Modifier
+                        .width(dimensionResource(R.dimen.product_width))
+                        .height(dimensionResource(R.dimen.product_height)),
+                      painter = rememberAsyncImagePainter(
+                        model = product.image
+                      ),
+                      contentScale = ContentScale.Fit,
+                      contentDescription = null,
+                    )
+                    Text(
+                      text = product.name,
+                      maxLines = 2,
+                      overflow = TextOverflow.Ellipsis,
+                    )
+                  }
+                }
               }
             }
             SectionType.GRID -> {}
