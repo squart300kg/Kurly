@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import kr.co.kurly.core.domain.GetProductsUseCase
 import kr.co.kurly.core.repository.ProductRepository
 import kr.co.kurly.core.ui.BaseViewModel
 import kr.co.kurly.core.ui.UiEvent
@@ -49,6 +50,7 @@ sealed interface HomeUiSideEffect : UiSideEffect {
 @HiltViewModel
 class HomeViewModel @Inject constructor(
   private val productRepository: ProductRepository,
+  private val getProductsUseCase: GetProductsUseCase
 ) : BaseViewModel<HomeUiState, HomeUiEvent, HomeUiSideEffect>() {
 
   override fun createInitialState(): HomeUiState {
@@ -62,7 +64,14 @@ class HomeViewModel @Inject constructor(
   }
 
   init {
-    setEffect { HomeUiSideEffect.Load }
+    viewModelScope.launch {
+      getProductsUseCase()
+        .onStart {  }
+        .catch { setErrorState(it) }
+        .collect {
+
+        }
+    }
   }
 
   fun fetchData() {

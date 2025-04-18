@@ -6,11 +6,20 @@ import kr.co.kurly.core.repository.dto.CommonDtoResponse
 import kr.co.kurly.core.repository.dto.SectionProductDtoResponse
 import javax.inject.Inject
 
-class ObserveProductsUseCaseImpl @Inject constructor(
+class GetProductsUseCaseImpl @Inject constructor(
   private val productRepository: ProductRepository
-): ObserveProductsUseCase {
+): GetProductsUseCase {
 
+  /**
+   * 1. getSections호출
+   * 2. getSectionProduct호출 -> product받음
+   * 3. favoriteIds받음
+   * 4. product와 favorite조율해서 isFavorite필드 true 처리
+   */
   override fun invoke(): Flow<CommonDtoResponse<SectionProductDtoResponse>> {
-    TODO("Not yet implemented")
+    productRepository.getSections()
+    productRepository.getSectionProduct()
+    productRepository.observeAllFavoriteIds()
+
   }
 }
