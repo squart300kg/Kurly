@@ -12,6 +12,8 @@ interface ProductRepository {
 
   fun getSectionProduct(sectionId: Int): Flow<CommonDtoResponse<SectionProductDtoResponse>>
 
+  fun observeAllFavoriteIds(): Flow<Int>
+
   fun markFavorite(dtoRequest: FavoriteMakingDtoRequest)
 
   fun unmarkFavorite(dtoRequest: FavoriteMakingDtoRequest)

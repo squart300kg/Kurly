@@ -48,6 +48,10 @@ class ProductProductRepositoryImpl @Inject constructor(
     }
   }
 
+  override fun observeAllFavoriteIds(): Flow<Int> {
+    TODO("Not yet implemented")
+  }
+
   override fun markFavorite(dtoRequest: FavoriteMakingDtoRequest) {
     TODO("Not yet implemented")
   }

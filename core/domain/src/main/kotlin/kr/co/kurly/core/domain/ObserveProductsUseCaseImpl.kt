@@ -7,7 +7,7 @@ import kr.co.kurly.core.repository.dto.SectionProductDtoResponse
 import javax.inject.Inject
 
 class ObserveProductsUseCaseImpl @Inject constructor(
-  productRepository: ProductRepository
+  private val productRepository: ProductRepository
 ): ObserveProductsUseCase {
 
   override fun invoke(): Flow<CommonDtoResponse<SectionProductDtoResponse>> {

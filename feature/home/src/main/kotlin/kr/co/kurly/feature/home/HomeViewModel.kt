@@ -67,6 +67,9 @@ class HomeViewModel @Inject constructor(
 
   fun fetchData() {
     viewModelScope.launch {
+
+
+
       productRepository.getSectionProduct(2)
         .onStart { }
         .onCompletion { }
