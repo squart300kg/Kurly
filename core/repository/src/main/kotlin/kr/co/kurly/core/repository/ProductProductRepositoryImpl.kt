@@ -14,19 +14,34 @@ import javax.inject.Inject
 class ProductProductRepositoryImpl @Inject constructor(
   private val productApiService: ProductApiService
 ) : ProductRepository {
-  override fun getSections(): Flow<CommonDtoResponse<SectionDtoResponse>> {
-    TODO("Not yet implemented")
+  override fun getSections(page: Int): Flow<CommonDtoResponse<SectionDtoResponse>> {
+    return flow {
+      productApiService.getSections(page = page)
+        .suspendOperator(
+          ResponseBaseOperator(
+            onSuccess = {
+              emit(
+                value = it.data
+                  .map(SectionDtoResponse::mapperToDto)
+                  .let(::CommonDtoResponse)
+              )
+            }
+          )
+        )
+    }
   }
 
   override fun getSectionProduct(sectionId: Int): Flow<CommonDtoResponse<SectionProductDtoResponse>> {
     return flow {
-      productApiService.getSectionProduct(sectionId)
+      productApiService.getSectionProduct(sectionId = sectionId)
         .suspendOperator(
           ResponseBaseOperator(
-            onSuccess = { it ->
-              emit(it.data
-                .map { SectionProductDtoResponse.mapperToDto(it) }
-                .let(::CommonDtoResponse))
+            onSuccess = {
+              emit(
+                value = it.data
+                  .map(SectionProductDtoResponse::mapperToDto)
+                  .let(::CommonDtoResponse)
+              )
             }
           )
         )

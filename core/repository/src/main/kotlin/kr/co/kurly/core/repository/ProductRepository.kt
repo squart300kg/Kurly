@@ -8,7 +8,7 @@ import kr.co.kurly.core.repository.dto.SectionProductDtoResponse
 
 interface ProductRepository {
 
-  fun getSections(): Flow<CommonDtoResponse<SectionDtoResponse>>
+  fun getSections(page: Int): Flow<CommonDtoResponse<SectionDtoResponse>>
 
   fun getSectionProduct(sectionId: Int): Flow<CommonDtoResponse<SectionProductDtoResponse>>
 
