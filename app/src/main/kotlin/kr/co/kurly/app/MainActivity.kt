@@ -12,8 +12,8 @@ import androidx.navigation.compose.rememberNavController
 import dagger.hilt.android.AndroidEntryPoint
 import kr.co.kurly.app.ui.navigation.BaseNavigationBarWithItems
 import kr.co.kurly.app.ui.theme.BaseTheme
-import kr.co.kurly.feature.first.FIRST_BASE_ROUTE
-import kr.co.kurly.feature.first.firstScreen
+import kr.co.kurly.feature.home.HOME_BASE_ROUTE
+import kr.co.kurly.feature.home.homeScreen
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -34,9 +34,9 @@ class MainActivity : ComponentActivity() {
             NavHost(
               modifier = Modifier.padding(innerPadding),
               navController = navHostController,
-              startDestination = FIRST_BASE_ROUTE
+              startDestination = HOME_BASE_ROUTE
             ) {
-              firstScreen()
+              homeScreen()
 
             }
           }

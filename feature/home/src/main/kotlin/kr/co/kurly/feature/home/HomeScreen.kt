@@ -1,4 +1,4 @@
-package kr.co.kurly.feature.first
+package kr.co.kurly.feature.home
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.padding
@@ -19,31 +19,30 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 
-const val FIRST_BASE_ROUTE = "firstBaseRoute"
-const val SECOND_BASE_ROUTE = "secondBaseRoute"
-fun NavGraphBuilder.firstScreen() {
+const val HOME_BASE_ROUTE = "homeBaseRoute"
+fun NavGraphBuilder.homeScreen() {
   composable(
-    route = FIRST_BASE_ROUTE
+    route = HOME_BASE_ROUTE
   ) {
-    FirstScreen()
+    HomeScreen()
   }
 }
 
 @Composable
-fun FirstScreen(
+fun HomeScreen(
   modifier: Modifier = Modifier,
-  viewModel: FirstViewModel = hiltViewModel()
+  viewModel: HomeViewModel = hiltViewModel()
 ) {
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
   LaunchedEffect(Unit) {
     viewModel.uiSideEffect.collect { effect ->
       when (effect) {
-        is FirstUiSideEffect.Load -> viewModel.fetchData()
+        is HomeUiSideEffect.Load -> viewModel.fetchData()
       }
     }
   }
 
-  FirstScreen(
+  HomeScreen(
     uiState = uiState,
     modifier = modifier,
   )
@@ -51,14 +50,14 @@ fun FirstScreen(
 }
 
 @Composable
-fun FirstScreen(
+fun HomeScreen(
   modifier: Modifier = Modifier,
-  uiState: FirstUiState,
+  uiState: HomeUiState,
 ) {
 
   when (uiState.uiType) {
-    FirstUiType.NONE -> {}
-    FirstUiType.LOADED -> {
+    HomeUiType.NONE -> {}
+    HomeUiType.LOADED -> {
       LazyColumn(modifier) {
         items(uiState.uiModels) { item ->
           Text(

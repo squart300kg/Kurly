@@ -1,4 +1,4 @@
-package kr.co.kurly.feature.first
+package kr.co.kurly.feature.home
 
 import androidx.activity.ComponentActivity
 import androidx.compose.ui.test.junit4.createAndroidComposeRule

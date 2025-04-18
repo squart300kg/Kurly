@@ -1,4 +1,4 @@
-package kr.co.kurly.feature.first
+package kr.co.kurly.feature.home
 
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import kr.co.kurly.core.ui.UiSideEffect
 import kr.co.kurly.core.ui.UiState
 import javax.inject.Inject
 
-enum class FirstUiType {
+enum class HomeUiType {
   NONE,
   LOADED
 }
@@ -32,37 +32,37 @@ data class UiModel(
 //  }
 }
 
-data class FirstUiState(
-  val uiType: FirstUiType = FirstUiType.NONE,
+data class HomeUiState(
+  val uiType: HomeUiType = HomeUiType.NONE,
   val uiModels: ImmutableList<UiModel> = persistentListOf(),
   val isLoading: Boolean = false
 ) : UiState
 
-sealed interface FirstUiEvent : UiEvent {
+sealed interface HomeUiEvent : UiEvent {
 
 }
 
-sealed interface FirstUiSideEffect : UiSideEffect {
-  data object Load : FirstUiSideEffect
+sealed interface HomeUiSideEffect : UiSideEffect {
+  data object Load : HomeUiSideEffect
 }
 
 @HiltViewModel
-class FirstViewModel @Inject constructor(
+class HomeViewModel @Inject constructor(
   private val productRepository: ProductRepository,
-) : BaseViewModel<FirstUiState, FirstUiEvent, FirstUiSideEffect>() {
+) : BaseViewModel<HomeUiState, HomeUiEvent, HomeUiSideEffect>() {
 
-  override fun createInitialState(): FirstUiState {
-    return FirstUiState()
+  override fun createInitialState(): HomeUiState {
+    return HomeUiState()
   }
 
-  override fun handleEvent(event: FirstUiEvent) {
+  override fun handleEvent(event: HomeUiEvent) {
     when (event) {
       else -> {}
     }
   }
 
   init {
-    setEffect { FirstUiSideEffect.Load }
+    setEffect { HomeUiSideEffect.Load }
   }
 
   fun fetchData() {
