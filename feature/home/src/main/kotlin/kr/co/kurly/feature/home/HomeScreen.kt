@@ -1,6 +1,8 @@
 package kr.co.kurly.feature.home
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -18,6 +20,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
+import kr.co.kurly.core.model.SectionType
 
 const val HOME_BASE_ROUTE = "homeBaseRoute"
 fun NavGraphBuilder.homeScreen() {
@@ -59,21 +62,26 @@ fun HomeScreen(
     HomeUiType.NONE -> {}
     HomeUiType.LOADED -> {
       LazyColumn(modifier) {
-        items(uiState.homeUiModel) { item ->
-          Text(
-            modifier = Modifier
-                .padding(8.dp)
-                .border(
-                    width = 1.dp,
-                    shape = RoundedCornerShape(4.dp),
-                    color = Color.LightGray
-                )
-                .padding(8.dp),
-            text = item.name,
-            style = TextStyle(
-              fontSize = 20.sp,
-            )
-          )
+        items(
+          items = uiState.homeUiModel,
+          key = { it.section.id}
+        ) { homeUiModel ->
+          when (homeUiModel.section.type) {
+            SectionType.HORIZONTAL -> {
+              Row(
+                modifier = Modifier
+              ) {
+//                Image(
+//                  painter = ,
+//                  contentDescription = null,
+//                )
+              }
+            }
+            SectionType.GRID -> {}
+            SectionType.VERTICAL -> {}
+            SectionType.NONE -> {}
+          }
+
         }
       }
     }
