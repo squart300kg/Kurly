@@ -26,6 +26,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
@@ -122,13 +123,13 @@ fun HomeScreen(
                             fontWeight = FontWeight.Bold
                           )
                           Text(
-                            text = "${price.discountedPrice}원",
+                            text = "${price.discountedPrice}${stringResource(R.string.won)}",
                             fontWeight = FontWeight.Bold
                           )
                         }
                         is PriceType.Original -> {
                           Text(
-                            text = "${price.price}원",
+                            text = "${price.price}${stringResource(R.string.won)}",
                             fontWeight = FontWeight.Bold
                           )
                         }
