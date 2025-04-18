@@ -10,7 +10,7 @@ class ProductRepositoryTest {
 
   private val testScope = TestScope(UnconfinedTestDispatcher())
 
-  private lateinit var repository: ProductProductRepositoryImpl
+  private lateinit var repository: ProductRepositoryImpl
 
   private lateinit var remoteApi: RemoteApi
 

@@ -11,7 +11,7 @@ import kr.co.kurly.core.repository.dto.SectionDtoResponse
 import kr.co.kurly.core.repository.dto.SectionProductDtoResponse
 import javax.inject.Inject
 
-class ProductProductRepositoryImpl @Inject constructor(
+class ProductRepositoryImpl @Inject constructor(
   private val productApiService: ProductApiService
 ) : ProductRepository {
   override fun getSections(page: Int): Flow<CommonDtoResponse<SectionDtoResponse>> {

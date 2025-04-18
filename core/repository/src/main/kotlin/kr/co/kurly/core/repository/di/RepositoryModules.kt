@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kr.co.kurly.core.repository.ProductRepository
-import kr.co.kurly.core.repository.ProductProductRepositoryImpl
+import kr.co.kurly.core.repository.ProductRepositoryImpl
 import javax.inject.Singleton
 
 @Module
@@ -14,8 +14,8 @@ interface RepositoryModules {
 
   @Singleton
   @Binds
-  fun bindsNewsRepository(
-    repository: ProductProductRepositoryImpl
+  fun bindsProductRepository(
+    repository: ProductRepositoryImpl
   ): ProductRepository
 
 }
