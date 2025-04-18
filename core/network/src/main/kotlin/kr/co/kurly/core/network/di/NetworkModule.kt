@@ -1,13 +1,18 @@
 package kr.co.kurly.core.network.di
 
+import android.content.Context
 import android.util.Log
 import com.skydoves.sandwich.retrofit.adapters.ApiResponseCallAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kr.co.kurly.core.network.BuildConfig
 import kr.co.kurly.core.network.RemoteApi
+import kr.co.kurly.core.network.FileProvider
+import kr.co.kurly.core.network.AssetFileProvider
+import kr.co.kurly.core.network.interceptor.MockInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -17,6 +22,20 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+
+  @Provides
+  @Singleton
+  fun provideFileProvider(
+    @ApplicationContext context: Context
+  ): FileProvider =
+    AssetFileProvider(context)
+
+  @Singleton
+  @Provides
+  fun provideMockInterceptor(
+    @ApplicationContext applicationContext: Context
+  ): MockInterceptor =
+    MockInterceptor(applicationContext)
 
   @Singleton
   @Provides
@@ -31,9 +50,11 @@ object NetworkModule {
   @Provides
   @Singleton
   fun provideOkHttpClient(
+    mockInterceptor: MockInterceptor,
     loggingInterceptor: HttpLoggingInterceptor
   ): OkHttpClient {
     return OkHttpClient.Builder()
+      .addInterceptor(mockInterceptor)
       .addInterceptor(loggingInterceptor)
       .build()
   }
@@ -58,5 +79,4 @@ object NetworkModule {
       .build()
       .create(RemoteApi::class.java)
   }
-
 }

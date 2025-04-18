@@ -12,7 +12,6 @@ android {
   namespace = "kr.co.kurly.core.network"
 
   defaultConfig {
-    buildConfigField("String", "apiKey", "${properties["apiKey"]}")
     buildConfigField("String", "apiUrl", "${properties["apiUrl"]}")
   }
 
