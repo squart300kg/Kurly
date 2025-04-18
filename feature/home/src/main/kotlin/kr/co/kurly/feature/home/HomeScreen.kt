@@ -20,11 +20,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,6 +38,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.compose.composable
 import coil.compose.rememberAsyncImagePainter
 import kr.co.architecture.feature.home.R
+import kr.co.kurly.core.model.PriceType
 import kr.co.kurly.core.model.SectionType
 
 const val HOME_BASE_ROUTE = "homeBaseRoute"
@@ -78,7 +83,7 @@ fun HomeScreen(
       LazyColumn(modifier) {
         items(
           items = uiState.homeUiModel,
-          key = { it.section.id}
+          key = { it.section.id }
         ) { homeUiModel ->
           when (homeUiModel.section.type) {
             SectionType.HORIZONTAL -> {
@@ -92,18 +97,57 @@ fun HomeScreen(
                     Image(
                       modifier = Modifier
                         .width(dimensionResource(R.dimen.product_width))
-                        .height(dimensionResource(R.dimen.product_height)),
+                        .height(dimensionResource(R.dimen.product_height))
+                        .align(Alignment.CenterHorizontally),
                       painter = rememberAsyncImagePainter(
                         model = product.image
                       ),
                       contentScale = ContentScale.Fit,
                       contentDescription = null,
                     )
+
                     Text(
                       text = product.name,
                       maxLines = 2,
                       overflow = TextOverflow.Ellipsis,
                     )
+
+                    // 공통 추출
+                    Row {
+                      when (val price = product.price) {
+                        is PriceType.Discounted -> {
+                          Text(
+                            text = "${price.discountedRate}%",
+                            color = colorResource(R.color.productDiscount),
+                            fontWeight = FontWeight.Bold
+                          )
+                          Text(
+                            text = "${price.discountedPrice}원",
+                            fontWeight = FontWeight.Bold
+                          )
+                        }
+                        is PriceType.Original -> {
+                          Text(
+                            text = "${price.price}원",
+                            fontWeight = FontWeight.Bold
+                          )
+                        }
+                      }
+                    }
+
+                    Column {
+                      when (val price = product.price) {
+                        is PriceType.Discounted -> {
+                          Text(
+                            text = "${price.discountedPrice}원",
+                            style = TextStyle(
+                              textDecoration = TextDecoration.LineThrough
+                            )
+                          )
+                        }
+                        is PriceType.Original -> {}
+                      }
+                    }
                   }
                 }
               }

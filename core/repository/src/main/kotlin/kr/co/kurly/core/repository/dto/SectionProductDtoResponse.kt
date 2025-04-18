@@ -1,12 +1,11 @@
 package kr.co.kurly.core.repository.dto
 
+import kr.co.kurly.core.model.PriceType
 import kr.co.kurly.core.network.model.SectionProductApiResponse
 
 data class SectionProductDtoResponse(
-  val originalPrice: Int,
-  val discountedPrice: Int?,
-  val discountedRate: Int?,
   val id: Int,
+  val price: PriceType,
   val image: String,
   val isSoldOut: Boolean,
   val name: String,
@@ -14,14 +13,21 @@ data class SectionProductDtoResponse(
 ) {
   companion object {
     fun mapperToDto(apiResponse: SectionProductApiResponse) = SectionProductDtoResponse(
-      originalPrice = apiResponse.originalPrice,
-      discountedPrice = apiResponse.discountedPrice,
-      discountedRate = apiResponse.discountedPrice,
+      price = apiResponse.discountedPrice?.let { discountedPrice ->
+        PriceType.Discounted(
+          originalPrice = apiResponse.originalPrice,
+          discountedPrice = discountedPrice,
+          discountedRate = PriceType.Discounted.calculateDiscountRate(
+            originalPrice = apiResponse.originalPrice,
+            discountedPrice = discountedPrice
+          )
+        )} ?: run { PriceType.Original(apiResponse.originalPrice) },
       id = apiResponse.id,
       image = apiResponse.image,
       isSoldOut = apiResponse.isSoldOut,
       name = apiResponse.name,
       isFavorite = false
     )
+
   }
 }
