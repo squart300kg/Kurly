@@ -4,17 +4,15 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
+import kr.co.kurly.core.repository.ProductRepository
 import kr.co.kurly.core.ui.BaseViewModel
 import kr.co.kurly.core.ui.UiEvent
 import kr.co.kurly.core.ui.UiSideEffect
 import kr.co.kurly.core.ui.UiState
-import kr.co.kurly.core.repository.ProductRepository
-import kr.co.kurly.core.repository.dto.ArticleDto
 import javax.inject.Inject
 
 enum class FirstUiType {
@@ -25,13 +23,13 @@ enum class FirstUiType {
 data class UiModel(
   val name: String
 ) {
-  companion object {
-    fun mapperToUi(dtos: List<ArticleDto>): ImmutableList<UiModel> {
-      return dtos
-        .map { UiModel(it.name) }
-        .toImmutableList()
-    }
-  }
+//  companion object {
+//    fun mapperToUi(dtos: List<ArticleDto>): ImmutableList<UiModel> {
+//      return dtos
+//        .map { UiModel(it.name) }
+//        .toImmutableList()
+//    }
+//  }
 }
 
 data class FirstUiState(
@@ -74,12 +72,13 @@ class FirstViewModel @Inject constructor(
         .onCompletion { }
         .catch { setErrorState(it) }
         .collect {
-          setState {
-            copy(
-              uiType = FirstUiType.LOADED,
-              uiModels = UiModel.mapperToUi(it)
-            )
-          }
+          println("apiResultLog : ${it.data}")
+//          setState {
+//            copy(
+//              uiType = FirstUiType.LOADED,
+//              uiModels = UiModel.mapperToUi(it)
+//            )
+//          }
         }
     }
   }

@@ -11,7 +11,6 @@ android {
 
   dependencies {
     implementation(project(":feature:first"))
-    implementation(project(":feature:second"))
     implementation(project(":core:ui"))
     implementation(project(":core:domain"))
     implementation(project(":core:repository"))

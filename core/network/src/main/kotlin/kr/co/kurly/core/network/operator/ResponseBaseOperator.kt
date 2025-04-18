@@ -4,22 +4,14 @@ import com.skydoves.sandwich.ApiResponse
 import com.skydoves.sandwich.operators.ApiResponseSuspendOperator
 import com.skydoves.sandwich.retrofit.raw
 import kr.co.kurly.core.model.ArchitectureSampleHttpException
-import kr.co.kurly.core.network.model.CommonResponse
+import kr.co.kurly.core.network.model.CommonApiResponse
 
-class ResponseBaseOperator<ENTITY, DTO>(
-  private val onSuccess: suspend (data: DTO) -> Unit,
-  private val mapper: ((List<ENTITY>) -> DTO),
-) : ApiResponseSuspendOperator<CommonResponse<ENTITY>>() {
+class ResponseBaseOperator<ENTITY>(
+  private val onSuccess: suspend (data: CommonApiResponse<ENTITY>) -> Unit
+) : ApiResponseSuspendOperator<CommonApiResponse<ENTITY>>() {
 
-  override suspend fun onSuccess(apiResponse: ApiResponse.Success<CommonResponse<ENTITY>>) {
-    if (apiResponse.raw.code != 401) {
-      onSuccess(mapper.invoke(apiResponse.data.articles))
-    } else {
-      throw ArchitectureSampleHttpException(
-        code = apiResponse.data.totalResults,
-        message = apiResponse.raw.message,
-      )
-    }
+  override suspend fun onSuccess(apiResponse: ApiResponse.Success<CommonApiResponse<ENTITY>>) {
+    onSuccess(apiResponse.data)
   }
 
   override suspend fun onError(apiResponse: ApiResponse.Failure.Error) {

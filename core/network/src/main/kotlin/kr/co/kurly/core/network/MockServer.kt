@@ -8,6 +8,7 @@ internal class MockServer constructor(
 
   fun get(request: Request): String? {
     val url = request.url
+
     return when (url.encodedPath) {
       "/sections" -> getSections(url.queryParameter("page")?.toIntOrNull() ?: 1)
       "/section/products" -> getSectionProducts(url.queryParameter("sectionId")?.toIntOrNull())

@@ -14,7 +14,6 @@ import kr.co.kurly.app.ui.navigation.BaseNavigationBarWithItems
 import kr.co.kurly.app.ui.theme.BaseTheme
 import kr.co.kurly.feature.first.FIRST_BASE_ROUTE
 import kr.co.kurly.feature.first.firstScreen
-import kr.co.kurly.feature.second.secondScreen
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
@@ -39,7 +38,6 @@ class MainActivity : ComponentActivity() {
             ) {
               firstScreen()
 
-              secondScreen()
             }
           }
         }
