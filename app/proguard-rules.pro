@@ -1,0 +1,1 @@
+-keep class kr.co.architecture.core.network.model.** { *; }
