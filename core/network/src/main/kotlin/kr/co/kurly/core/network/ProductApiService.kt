@@ -5,7 +5,7 @@ import kr.co.kurly.core.network.model.SectionProductApiResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
-interface ProductService {
+interface ProductApiService {
 
   @GET("/sections")
   suspend fun getSections(@Query("page") page: Int): List<SectionApiResponse>

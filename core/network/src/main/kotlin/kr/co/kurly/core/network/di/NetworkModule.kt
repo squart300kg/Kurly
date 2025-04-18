@@ -11,7 +11,7 @@ import dagger.hilt.components.SingletonComponent
 import kr.co.kurly.core.network.BuildConfig
 import kr.co.kurly.core.network.FileProvider
 import kr.co.kurly.core.network.AssetFileProvider
-import kr.co.kurly.core.network.ProductService
+import kr.co.kurly.core.network.ProductApiService
 import kr.co.kurly.core.network.interceptor.MockInterceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -70,13 +70,13 @@ object NetworkModule {
   fun provideMarbleCharacterApi(
     okHttpClient: OkHttpClient,
     gsonConverterFactory: GsonConverterFactory
-  ): ProductService {
+  ): ProductApiService {
     return Retrofit.Builder()
       .baseUrl(BuildConfig.apiUrl)
       .client(okHttpClient)
       .addCallAdapterFactory(ApiResponseCallAdapterFactory.create())
       .addConverterFactory(gsonConverterFactory)
       .build()
-      .create(ProductService::class.java)
+      .create(ProductApiService::class.java)
   }
 }
