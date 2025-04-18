@@ -2,10 +2,18 @@ package kr.co.kurly.core.repository
 
 import kotlinx.coroutines.flow.Flow
 import kr.co.kurly.core.repository.dto.CommonDtoResponse
+import kr.co.kurly.core.repository.dto.FavoriteMakingDtoRequest
+import kr.co.kurly.core.repository.dto.SectionDtoResponse
 import kr.co.kurly.core.repository.dto.SectionProductDtoResponse
 
 interface ProductRepository {
 
+  fun getSections(): Flow<CommonDtoResponse<SectionDtoResponse>>
+
   fun getSectionProduct(sectionId: Int): Flow<CommonDtoResponse<SectionProductDtoResponse>>
+
+  fun markFavorite(dtoRequest: FavoriteMakingDtoRequest)
+
+  fun unmarkFavorite(dtoRequest: FavoriteMakingDtoRequest)
 
 }
