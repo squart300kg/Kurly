@@ -5,7 +5,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 import kr.co.kurly.app.R
 import kr.co.kurly.feature.home.HOME_BASE_ROUTE
-import kr.co.kurly.feature.home.SECOND_BASE_ROUTE
 
 val baseDestinations: ImmutableList<BaseDestination> =
   BaseDestination.entries.toImmutableList()
@@ -21,11 +20,5 @@ enum class BaseDestination(
     unselectedIconRes = R.drawable.tab_first_off,
     iconTextIdRes = "first",
     route = HOME_BASE_ROUTE
-  ),
-  SECOND(
-    selectedIconRes = R.drawable.tab_second_on,
-    unselectedIconRes = R.drawable.tab_second_off,
-    iconTextIdRes = "second",
-    route = SECOND_BASE_ROUTE
   )
 }

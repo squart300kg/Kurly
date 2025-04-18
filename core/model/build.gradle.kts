@@ -9,7 +9,5 @@ android {
 
   defaultConfig { }
 
-  dependencies {
-    implementation(project(":core:model"))
-  }
+  dependencies { }
 }
