@@ -32,20 +32,20 @@ fun PriceSection(
       when (priceType) {
         is PriceType.Discounted -> {
           DiscountedRate(priceType.discountedRate)
-          Price(priceType.discountedPrice)
+          MainPrice(priceType.discountedPrice)
           if (priceLineType == PriceLineType.ONE_LINE) {
-            DiscountedPrice(priceType.originalPrice)
+            BeforeDiscountPrice(priceType.originalPrice)
           }
         }
         is PriceType.Original -> {
-          Price(priceType.price)
+          MainPrice(priceType.price)
         }
       }
     }
     when (priceType) {
       is PriceType.Discounted -> {
         if (priceLineType == PriceLineType.TWO_LINE) {
-          DiscountedPrice(priceType.originalPrice)
+          BeforeDiscountPrice(priceType.originalPrice)
         }
       }
       is PriceType.Original -> {}
@@ -63,7 +63,7 @@ private fun DiscountedRate(rate: Int) {
 }
 
 @Composable
-private fun DiscountedPrice(price: Int) {
+private fun BeforeDiscountPrice(price: Int) {
   Text(
     text = "${price}${stringResource(R.string.won)}",
     style = TextStyle(
@@ -73,7 +73,7 @@ private fun DiscountedPrice(price: Int) {
 }
 
 @Composable
-private fun Price(price: Int) {
+private fun MainPrice(price: Int) {
   Text(
     text = "${price}${stringResource(R.string.won)}",
     fontWeight = FontWeight.Bold
