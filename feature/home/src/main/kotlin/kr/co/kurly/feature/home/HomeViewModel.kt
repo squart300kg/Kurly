@@ -11,10 +11,14 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kr.co.kurly.core.domain.GetProductsUseCase
 import kr.co.kurly.core.domain.model.SectionProductDomainResponse
+import kr.co.kurly.core.model.SectionType
 import kr.co.kurly.core.repository.ProductRepository
 import kr.co.kurly.core.repository.dto.SectionDtoResponse
 import kr.co.kurly.core.repository.dto.SectionProductDtoResponse
 import kr.co.kurly.core.ui.BaseViewModel
+import kr.co.kurly.core.ui.PriceDisplayType
+import kr.co.kurly.core.ui.ProductSectionType
+import kr.co.kurly.core.ui.ProductUiModel
 import kr.co.kurly.core.ui.UiEvent
 import kr.co.kurly.core.ui.UiSideEffect
 import kr.co.kurly.core.ui.UiState
@@ -27,14 +31,28 @@ enum class HomeUiType {
 
 data class HomeUiModel(
   val section: SectionDtoResponse,
-  val products: ImmutableList<SectionProductDtoResponse>
+  val productUiModels: ImmutableList<ProductUiModel>
 ) {
   companion object {
     fun mapperToUiModel(domainResponse: List<SectionProductDomainResponse>): ImmutableList<HomeUiModel> {
       return domainResponse
-        .map { HomeUiModel(
-          section = it.section,
-          products = it.products.toImmutableList()) }
+        .map {
+          HomeUiModel(
+            section = it.section,
+            productUiModels = it.products.map { product ->
+              ProductUiModel(
+                product = product,
+                priceDisplayType =
+                if (it.section.type == SectionType.VERTICAL) PriceDisplayType.ONE_LINE
+                else PriceDisplayType.TWO_LINE,
+                productSectionType =
+                if (it.section.type == SectionType.VERTICAL) ProductSectionType.WIDTH_EXPANDED
+                else ProductSectionType.NORMAL
+
+              )
+            }.toImmutableList()
+          )
+        }
         .toImmutableList()
     }
   }
@@ -73,7 +91,9 @@ class HomeViewModel @Inject constructor(
     }
   }
 
-  init { setEffect { HomeUiSideEffect.Load.First } }
+  init {
+    setEffect { HomeUiSideEffect.Load.First }
+  }
 
   fun fetchData() {
     viewModelScope.launch {

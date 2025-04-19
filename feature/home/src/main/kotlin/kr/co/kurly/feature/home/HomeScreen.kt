@@ -51,9 +51,6 @@ fun HomeScreen(
   uiState: HomeUiState,
   configuration: Configuration = LocalConfiguration.current
 ) {
-  configuration.screenHeightDp
-  configuration.screenWidthDp
-
   when (uiState.uiType) {
     HomeUiType.NONE -> {}
     HomeUiType.LOADED -> {
@@ -73,14 +70,12 @@ fun HomeScreen(
                       .fillMaxWidth()
                       .horizontalScroll(rememberScrollState())
                   ) {
-                    homeUiModel.products.forEach { product ->
-                      key(product.id) {
+                    homeUiModel.productUiModels.forEach { productUiModel ->
+                      key(productUiModel.product.id) {
                         ProductSection(
                           modifier = Modifier
                             .width((configuration.screenWidthDp / 2).dp),
-                          product = product,
-                          productSectionType = ProductSectionType.NORMAL,
-                          priceDisplayType = PriceDisplayType.TWO_LINE
+                          productUiModel = productUiModel
                         )
                       }
                     }
@@ -97,15 +92,13 @@ fun HomeScreen(
                     fontSize = 18.sp
                   )
                   Column {
-                    homeUiModel.products.chunked(3).forEach { products ->
+                    homeUiModel.productUiModels.chunked(3).forEach { products ->
                       Row {
-                        products.forEach { product ->
-                          key(product.id) {
+                        products.forEach { productUiModel ->
+                          key(productUiModel.product.id) {
                             ProductSection(
                               modifier = Modifier.weight(1f),
-                              product = product,
-                              productSectionType = ProductSectionType.NORMAL,
-                              priceDisplayType = PriceDisplayType.TWO_LINE
+                              productUiModel = productUiModel
                             )
                           }
                         }
@@ -124,13 +117,11 @@ fun HomeScreen(
                     fontSize = 18.sp
                   )
                   Column {
-                    homeUiModel.products.forEach { product ->
-                      key(product.id) {
+                    homeUiModel.productUiModels.forEach { productUiModel ->
+                      key(productUiModel.product.id) {
                         ProductSection(
                           modifier = Modifier.fillMaxWidth(),
-                          product = product,
-                          productSectionType = ProductSectionType.WIDTH_EXPANDED,
-                          priceDisplayType = PriceDisplayType.ONE_LINE
+                          productUiModel = productUiModel
                         )
                       }
                     }
