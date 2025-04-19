@@ -60,7 +60,7 @@ fun HomeScreen(
                 key(homeUiModel.section.id) {
                   Text(
                     modifier = Modifier,
-                    text = "${homeUiModel.section.title} + ${homeUiModel.section.type}",
+                    text = homeUiModel.section.title,
                     fontSize = 18.sp
                   )
                   Row(
@@ -86,7 +86,7 @@ fun HomeScreen(
                 key(homeUiModel.section.id) {
                   Text(
                     modifier = Modifier,
-                    text = "${homeUiModel.section.title} + ${homeUiModel.section.type}",
+                    text = homeUiModel.section.title,
                     fontSize = 18.sp
                   )
                   Column {
@@ -111,7 +111,7 @@ fun HomeScreen(
                 key(homeUiModel.section.id) {
                   Text(
                     modifier = Modifier,
-                    text = "${homeUiModel.section.title} + ${homeUiModel.section.type}",
+                    text = homeUiModel.section.title,
                     fontSize = 18.sp
                   )
                   Column {
