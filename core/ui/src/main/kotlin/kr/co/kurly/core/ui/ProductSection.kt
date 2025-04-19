@@ -19,11 +19,16 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import coil.compose.rememberAsyncImagePainter
 import kr.co.architecture.core.ui.R
+import kr.co.kurly.core.model.PriceType
 import kr.co.kurly.core.repository.dto.SectionProductDtoResponse
 import kr.co.kurly.core.ui.preview.ProductUiModelPreviewParam
 
 data class ProductUiModel(
-  val product: SectionProductDtoResponse,
+  val id: Int,
+  val image: String,
+  val name: String,
+  val isFavorite: Boolean,
+  val priceType: PriceType,
   val productSectionType: ProductSectionType,
   val priceLineType: PriceLineType
 )
@@ -59,20 +64,20 @@ fun ProductSection(
       modifier = imageModifier
         .align(Alignment.CenterHorizontally),
       painter = rememberAsyncImagePainter(
-        model = productUiModel.product.image
+        model = productUiModel.image
       ),
       contentScale = contentScale,
       contentDescription = null,
     )
 
     Text(
-      text = productUiModel.product.name,
+      text = productUiModel.name,
       maxLines = 2,
       overflow = TextOverflow.Ellipsis,
     )
 
     PriceSection(
-      priceType = productUiModel.product.price,
+      priceType = productUiModel.priceType,
       priceLineType = productUiModel.priceLineType
     )
   }

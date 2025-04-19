@@ -69,7 +69,7 @@ fun HomeScreen(
                       .horizontalScroll(rememberScrollState())
                   ) {
                     homeUiModel.productUiModels.forEach { productUiModel ->
-                      key(productUiModel.product.id) {
+                      key(productUiModel.id) {
                         ProductSection(
                           modifier = Modifier
                             .width((configuration.screenWidthDp / 2).dp),
@@ -93,7 +93,7 @@ fun HomeScreen(
                     homeUiModel.productUiModels.chunked(3).forEach { products ->
                       Row {
                         products.forEach { productUiModel ->
-                          key(productUiModel.product.id) {
+                          key(productUiModel.id) {
                             ProductSection(
                               modifier = Modifier.weight(1f),
                               productUiModel = productUiModel
@@ -116,7 +116,7 @@ fun HomeScreen(
                   )
                   Column {
                     homeUiModel.productUiModels.forEach { productUiModel ->
-                      key(productUiModel.product.id) {
+                      key(productUiModel.id) {
                         ProductSection(
                           modifier = Modifier.fillMaxWidth(),
                           productUiModel = productUiModel

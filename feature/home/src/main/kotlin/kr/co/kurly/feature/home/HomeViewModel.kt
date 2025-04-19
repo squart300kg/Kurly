@@ -39,13 +39,17 @@ data class HomeUiModel(
           section = it.section,
           productUiModels = it.products.map { product ->
             ProductUiModel(
-              product = product,
+              id = product.id,
+              image = product.image,
+              name = product.name,
+              priceType = product.price,
               productSectionType =
               if (it.section.type == SectionType.VERTICAL) ProductSectionType.WIDTH_EXPANDED
               else ProductSectionType.NORMAL,
               priceLineType =
               if (it.section.type == SectionType.VERTICAL) PriceLineType.ONE_LINE
-              else PriceLineType.TWO_LINE
+              else PriceLineType.TWO_LINE,
+              isFavorite = product.isFavorite
 
             )
           }.toImmutableList()
