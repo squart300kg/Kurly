@@ -34,24 +34,23 @@ data class HomeUiModel(
 ) {
   companion object {
     fun mapperToUiModel(domainResponse: List<SectionProductDomainResponse>): ImmutableList<HomeUiModel> {
-      return domainResponse
-        .map {
-          HomeUiModel(
-            section = it.section,
-            productUiModels = it.products.map { product ->
-              ProductUiModel(
-                product = product,
-                priceLineType =
-                if (it.section.type == SectionType.VERTICAL) PriceLineType.ONE_LINE
-                else PriceLineType.TWO_LINE,
-                productSectionType =
-                if (it.section.type == SectionType.VERTICAL) ProductSectionType.WIDTH_EXPANDED
-                else ProductSectionType.NORMAL
+      return domainResponse.map {
+        HomeUiModel(
+          section = it.section,
+          productUiModels = it.products.map { product ->
+            ProductUiModel(
+              product = product,
+              productSectionType =
+              if (it.section.type == SectionType.VERTICAL) ProductSectionType.WIDTH_EXPANDED
+              else ProductSectionType.NORMAL,
+              priceLineType =
+              if (it.section.type == SectionType.VERTICAL) PriceLineType.ONE_LINE
+              else PriceLineType.TWO_LINE
 
-              )
-            }.toImmutableList()
-          )
-        }
+            )
+          }.toImmutableList()
+        )
+      }
         .toImmutableList()
     }
   }
