@@ -16,6 +16,7 @@ import kr.co.kurly.core.repository.ProductRepository
 import kr.co.kurly.core.repository.dto.SectionDtoResponse
 import kr.co.kurly.core.ui.BaseViewModel
 import kr.co.kurly.core.ui.PriceLineType
+import kr.co.kurly.core.ui.PriceUiModel
 import kr.co.kurly.core.ui.ProductSectionType
 import kr.co.kurly.core.ui.ProductUiModel
 import kr.co.kurly.core.ui.UiEvent
@@ -42,15 +43,16 @@ data class HomeUiModel(
               id = product.id,
               image = product.image,
               name = product.name,
-              priceType = product.price,
+              isFavorite = product.isFavorite,
               productSectionType =
               if (it.section.type == SectionType.VERTICAL) ProductSectionType.WIDTH_EXPANDED
               else ProductSectionType.NORMAL,
-              priceLineType =
-              if (it.section.type == SectionType.VERTICAL) PriceLineType.ONE_LINE
-              else PriceLineType.TWO_LINE,
-              isFavorite = product.isFavorite
-
+              priceUiModel = PriceUiModel(
+                priceType = product.price,
+                priceLineType =
+                if (it.section.type == SectionType.VERTICAL) PriceLineType.ONE_LINE
+                else PriceLineType.TWO_LINE
+              )
             )
           }.toImmutableList()
         )

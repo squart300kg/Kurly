@@ -14,6 +14,11 @@ import androidx.compose.ui.text.style.TextDecoration
 import kr.co.architecture.core.ui.R
 import kr.co.kurly.core.model.PriceType
 
+data class PriceUiModel(
+  val priceType: PriceType,
+  val priceLineType: PriceLineType
+)
+
 enum class PriceLineType {
   ONE_LINE,
   TWO_LINE
@@ -22,30 +27,29 @@ enum class PriceLineType {
 @Composable
 fun PriceSection(
   modifier: Modifier = Modifier,
-  priceType: PriceType,
-  priceLineType: PriceLineType
+  priceUiModel: PriceUiModel
 ) {
   Column(modifier) {
     Row(
       verticalAlignment = Alignment.CenterVertically
     ) {
-      when (priceType) {
+      when (priceUiModel.priceType) {
         is PriceType.Discounted -> {
-          DiscountedRate(priceType.discountedRate)
-          MainPrice(priceType.discountedPrice)
-          if (priceLineType == PriceLineType.ONE_LINE) {
-            BeforeDiscountPrice(priceType.originalPrice)
+          DiscountedRate(priceUiModel.priceType.discountedRate)
+          MainPrice(priceUiModel.priceType.discountedPrice)
+          if (priceUiModel.priceLineType == PriceLineType.ONE_LINE) {
+            BeforeDiscountPrice(priceUiModel.priceType.originalPrice)
           }
         }
         is PriceType.Original -> {
-          MainPrice(priceType.price)
+          MainPrice(priceUiModel.priceType.price)
         }
       }
     }
-    when (priceType) {
+    when (priceUiModel.priceType) {
       is PriceType.Discounted -> {
-        if (priceLineType == PriceLineType.TWO_LINE) {
-          BeforeDiscountPrice(priceType.originalPrice)
+        if (priceUiModel.priceLineType == PriceLineType.TWO_LINE) {
+          BeforeDiscountPrice(priceUiModel.priceType.originalPrice)
         }
       }
       is PriceType.Original -> {}

@@ -28,9 +28,8 @@ data class ProductUiModel(
   val image: String,
   val name: String,
   val isFavorite: Boolean,
-  val priceType: PriceType,
   val productSectionType: ProductSectionType,
-  val priceLineType: PriceLineType
+  val priceUiModel: PriceUiModel
 )
 
 enum class ProductSectionType {
@@ -77,8 +76,7 @@ fun ProductSection(
     )
 
     PriceSection(
-      priceType = productUiModel.priceType,
-      priceLineType = productUiModel.priceLineType
+      priceUiModel = productUiModel.priceUiModel
     )
   }
 }
