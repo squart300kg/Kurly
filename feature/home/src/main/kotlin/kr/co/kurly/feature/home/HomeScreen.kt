@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kr.co.kurly.core.model.SectionType
+import kr.co.kurly.core.ui.CommonHorizontalDivider
 import kr.co.kurly.core.ui.ProductSection
 
 @Composable
@@ -68,7 +69,7 @@ fun HomeScreen(
                       .fillMaxWidth()
                       .horizontalScroll(rememberScrollState())
                   ) {
-                    homeUiModel.productUiModels.forEach { productUiModel ->
+                    homeUiModel.productUiModels.forEachIndexed { index, productUiModel ->
                       key(productUiModel.id) {
                         ProductSection(
                           modifier = Modifier
@@ -78,6 +79,9 @@ fun HomeScreen(
                       }
                     }
                   }
+                  CommonHorizontalDivider(
+                    verticalSpacerDp = 20.dp
+                  )
                 }
               }
             }
@@ -103,6 +107,9 @@ fun HomeScreen(
                       }
                     }
                   }
+                  CommonHorizontalDivider(
+                    verticalSpacerDp = 20.dp
+                  )
                 }
               }
             }
@@ -124,6 +131,9 @@ fun HomeScreen(
                       }
                     }
                   }
+                  CommonHorizontalDivider(
+                    verticalSpacerDp = 20.dp
+                  )
                 }
               }
             }
