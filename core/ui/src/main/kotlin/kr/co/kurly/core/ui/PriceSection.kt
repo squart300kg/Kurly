@@ -4,6 +4,8 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
@@ -12,41 +14,68 @@ import androidx.compose.ui.text.style.TextDecoration
 import kr.co.architecture.core.ui.R
 import kr.co.kurly.core.model.PriceType
 
+enum class PriceDisplayType {
+  ONE_LINE,
+  TWO_LINE
+}
+
 @Composable
-fun PriceSection(price: PriceType) {
-  Row {
-    when (price) {
-      is PriceType.Discounted -> {
-        Text(
-          text = "${price.discountedRate}%",
-          color = colorResource(R.color.productDiscount),
-          fontWeight = FontWeight.Bold
-        )
-        Text(
-          text = "${price.discountedPrice}${stringResource(R.string.won)}",
-          fontWeight = FontWeight.Bold
-        )
-      }
-      is PriceType.Original -> {
-        Text(
-          text = "${price.price}${stringResource(R.string.won)}",
-          fontWeight = FontWeight.Bold
-        )
+fun PriceSection(
+  modifier: Modifier = Modifier,
+  priceType: PriceType,
+  priceDisplayType: PriceDisplayType
+) {
+  Column(modifier) {
+    Row(
+      verticalAlignment = Alignment.CenterVertically
+    ) {
+      when (priceType) {
+        is PriceType.Discounted -> {
+          DiscountedRate(priceType.discountedRate)
+          Price(priceType.discountedPrice)
+          if (priceDisplayType == PriceDisplayType.ONE_LINE) {
+            DiscountedPrice(priceType.originalPrice)
+          }
+        }
+        is PriceType.Original -> {
+          Price(priceType.price)
+        }
       }
     }
-  }
-
-  Column {
-    when (val price = price) {
+    when (priceType) {
       is PriceType.Discounted -> {
-        Text(
-          text = "${price.discountedPrice}원",
-          style = TextStyle(
-            textDecoration = TextDecoration.LineThrough
-          )
-        )
+        if (priceDisplayType == PriceDisplayType.TWO_LINE) {
+          DiscountedPrice(priceType.originalPrice)
+        }
       }
       is PriceType.Original -> {}
     }
   }
+}
+
+@Composable
+private fun DiscountedRate(rate: Int) {
+  Text(
+    text = "${rate}%",
+    color = colorResource(R.color.productDiscount),
+    fontWeight = FontWeight.Bold
+  )
+}
+
+@Composable
+private fun DiscountedPrice(price: Int) {
+  Text(
+    text = "${price}${stringResource(R.string.won)}",
+    style = TextStyle(
+      textDecoration = TextDecoration.LineThrough
+    )
+  )
+}
+
+@Composable
+private fun Price(price: Int) {
+  Text(
+    text = "${price}${stringResource(R.string.won)}",
+    fontWeight = FontWeight.Bold
+  )
 }
