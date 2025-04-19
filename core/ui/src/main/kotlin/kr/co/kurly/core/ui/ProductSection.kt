@@ -6,14 +6,12 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -27,7 +25,7 @@ import kr.co.kurly.core.ui.preview.ProductUiModelPreviewParam
 data class ProductUiModel(
   val product: SectionProductDtoResponse,
   val productSectionType: ProductSectionType,
-  val priceDisplayType: PriceDisplayType
+  val priceLineType: PriceLineType
 )
 
 enum class ProductSectionType {
@@ -75,7 +73,7 @@ fun ProductSection(
 
     PriceSection(
       priceType = productUiModel.product.price,
-      priceDisplayType = productUiModel.priceDisplayType
+      priceLineType = productUiModel.priceLineType
     )
   }
 }
@@ -86,9 +84,7 @@ fun ProductSectionPreview(
   @PreviewParameter(ProductUiModelPreviewParam::class)
   productUiModel: ProductUiModel
 ) {
-  Surface(
-    color = Color.White
-  ) {
+  BaseSurface {
     ProductSection(
       productUiModel = productUiModel
     )

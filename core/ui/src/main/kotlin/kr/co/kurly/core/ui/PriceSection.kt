@@ -14,7 +14,7 @@ import androidx.compose.ui.text.style.TextDecoration
 import kr.co.architecture.core.ui.R
 import kr.co.kurly.core.model.PriceType
 
-enum class PriceDisplayType {
+enum class PriceLineType {
   ONE_LINE,
   TWO_LINE
 }
@@ -23,7 +23,7 @@ enum class PriceDisplayType {
 fun PriceSection(
   modifier: Modifier = Modifier,
   priceType: PriceType,
-  priceDisplayType: PriceDisplayType
+  priceLineType: PriceLineType
 ) {
   Column(modifier) {
     Row(
@@ -33,7 +33,7 @@ fun PriceSection(
         is PriceType.Discounted -> {
           DiscountedRate(priceType.discountedRate)
           Price(priceType.discountedPrice)
-          if (priceDisplayType == PriceDisplayType.ONE_LINE) {
+          if (priceLineType == PriceLineType.ONE_LINE) {
             DiscountedPrice(priceType.originalPrice)
           }
         }
@@ -44,7 +44,7 @@ fun PriceSection(
     }
     when (priceType) {
       is PriceType.Discounted -> {
-        if (priceDisplayType == PriceDisplayType.TWO_LINE) {
+        if (priceLineType == PriceLineType.TWO_LINE) {
           DiscountedPrice(priceType.originalPrice)
         }
       }
