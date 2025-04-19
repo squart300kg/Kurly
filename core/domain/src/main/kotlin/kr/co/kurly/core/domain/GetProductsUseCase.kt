@@ -5,6 +5,6 @@ import kr.co.kurly.core.domain.model.SectionProductDomainResponse
 
 interface GetProductsUseCase {
 
-  operator fun invoke(page: Int): Flow<List<SectionProductDomainResponse>>
+  operator fun invoke(page: Int): Flow<SectionProductDomainResponse>
 
 }

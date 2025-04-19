@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +23,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kr.co.kurly.core.model.SectionType
 import kr.co.kurly.core.ui.CommonHorizontalDivider
 import kr.co.kurly.core.ui.ProductSection
+import kr.co.kurly.core.ui.util.PaginationLoadEffect
 
 @Composable
 fun HomeScreen(
@@ -40,6 +42,7 @@ fun HomeScreen(
   HomeScreen(
     uiState = uiState,
     modifier = modifier,
+    onScrollToEnd = {}
   )
 
 }
@@ -48,12 +51,23 @@ fun HomeScreen(
 fun HomeScreen(
   modifier: Modifier = Modifier,
   uiState: HomeUiState,
+  onScrollToEnd: () -> Unit = {},
   configuration: Configuration = LocalConfiguration.current
 ) {
+  val listState = rememberLazyListState()
+  PaginationLoadEffect(
+    listState = listState,
+    nextPage = uiState.nextPage,
+    onScrollToEnd = { onScrollToEnd() }
+  )
+
   when (uiState.uiType) {
     HomeUiType.NONE -> {}
     HomeUiType.LOADED -> {
-      LazyColumn(modifier) {
+      LazyColumn(
+        modifier = modifier,
+        state = listState
+        ) {
         uiState.homeUiModel.forEach { homeUiModel ->
           when (homeUiModel.section.type) {
             SectionType.HORIZONTAL -> {

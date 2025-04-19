@@ -34,8 +34,8 @@ data class HomeUiModel(
   val productUiModels: ImmutableList<ProductUiModel>
 ) {
   companion object {
-    fun mapperToUiModel(domainResponse: List<SectionProductDomainResponse>): ImmutableList<HomeUiModel> {
-      return domainResponse.map {
+    fun mapperToUiModel(domainResponse: SectionProductDomainResponse): ImmutableList<HomeUiModel> {
+      return domainResponse.sectionProducts.map {
         HomeUiModel(
           section = it.section,
           productUiModels = it.products.map { product ->
@@ -65,6 +65,7 @@ data class HomeUiModel(
 data class HomeUiState(
   val uiType: HomeUiType = HomeUiType.NONE,
   val homeUiModel: ImmutableList<HomeUiModel> = persistentListOf(),
+  val nextPage: Int? = null,
   val isLoading: Boolean = false
 ) : UiState
 
@@ -109,7 +110,8 @@ class HomeViewModel @Inject constructor(
           setState {
             copy(
               uiType = HomeUiType.LOADED,
-              homeUiModel = HomeUiModel.mapperToUiModel(it)
+              homeUiModel = HomeUiModel.mapperToUiModel(it),
+              nextPage = it.nextPage
             )
           }
         }

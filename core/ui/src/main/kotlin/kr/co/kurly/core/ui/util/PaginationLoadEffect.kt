@@ -8,11 +8,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 
 @Composable
-fun <ID_TYPE> PaginationLoadEffect(
-  listState: LazyListState,
-  lastId: ID_TYPE?,
-  hasNext: Boolean,
-  onScrollToEnd: (nextId: ID_TYPE) -> Unit
+fun PaginationLoadEffect(
+    listState: LazyListState,
+    nextPage: Int?,
+    onScrollToEnd: (nextPage: Int) -> Unit
 ) {
   with(listState.layoutInfo) {
     if (visibleItemsInfo.lastOrNull() != null && totalItemsCount != 0) {
@@ -22,9 +21,9 @@ fun <ID_TYPE> PaginationLoadEffect(
         }
       }
 
-      LaunchedEffect(isScrolledToTheEnd, lastId) {
-        if (isScrolledToTheEnd && hasNext && lastId != null) {
-          onScrollToEnd(lastId)
+      LaunchedEffect(isScrolledToTheEnd, nextPage) {
+        if (isScrolledToTheEnd && nextPage != null) {
+          onScrollToEnd(nextPage)
         }
       }
     }
