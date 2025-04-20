@@ -72,7 +72,7 @@ data class HomeUiState(
 
 sealed interface HomeUiEvent : UiEvent {
   @JvmInline
-  value class OnScrolledToEnd(val nextPage: Int): HomeUiEvent
+  value class OnScrolledToEnd(val nextPage: Int) : HomeUiEvent
 
 }
 
@@ -101,43 +101,39 @@ class HomeViewModel @Inject constructor(
     }
   }
 
-  init { setEffect { HomeUiSideEffect.Load.First } }
+  init {
+    setEffect { HomeUiSideEffect.Load.First }
+  }
 
   fun fetchData(loadType: HomeUiSideEffect.Load) {
     viewModelScope.launch {
-      when (loadType) {
-        is HomeUiSideEffect.Load.First -> {
-          getProductsUseCase(1)
-            .onStart { }
-            .onCompletion { }
-            .catch { setErrorState(it) }
-            .collect {
-              setState {
-                copy(
-                  uiType = HomeUiType.LOADED,
-                  homeUiModel = HomeUiModel.mapperToUiModel(it),
-                  nextPage = it.nextPage
-                )
-              }
-            }
+      getProductsUseCase(
+        page = when (loadType) {
+          is HomeUiSideEffect.Load.First -> 1
+          is HomeUiSideEffect.Load.More -> loadType.pageId
         }
-        is HomeUiSideEffect.Load.More -> {
-          getProductsUseCase(loadType.pageId)
-            .onStart { }
-            .onCompletion { }
-            .catch { setErrorState(it) }
-            .collect {
-              setState {
-                copy(
-                  uiType = HomeUiType.LOADED,
-                  homeUiModel = (homeUiModel as PersistentList)
-                    .addAll(HomeUiModel.mapperToUiModel(it)),
-                  nextPage = it.nextPage
-                )
-              }
-            }
+      )
+        .onStart { }
+        .onCompletion { }
+        .catch { setErrorState(it) }
+        .collect {
+          setState {
+            copy(
+              uiType = HomeUiType.LOADED,
+              homeUiModel =
+              when (loadType) {
+                is HomeUiSideEffect.Load.First -> {
+                  HomeUiModel.mapperToUiModel(it)
+                }
+                is HomeUiSideEffect.Load.More -> {
+                  (homeUiModel as PersistentList)
+                    .addAll(HomeUiModel.mapperToUiModel(it))
+                }
+              },
+              nextPage = it.nextPage
+            )
+          }
         }
-      }
     }
   }
 }
