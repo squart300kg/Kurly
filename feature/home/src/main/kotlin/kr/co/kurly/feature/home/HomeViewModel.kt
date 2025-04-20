@@ -15,6 +15,7 @@ import kr.co.kurly.core.domain.GetProductsUseCase
 import kr.co.kurly.core.domain.model.SectionProductDomainResponse
 import kr.co.kurly.core.model.SectionType
 import kr.co.kurly.core.repository.ProductRepository
+import kr.co.kurly.core.repository.dto.FavoriteMakingDtoRequest
 import kr.co.kurly.core.repository.dto.SectionDtoResponse
 import kr.co.kurly.core.ui.BaseViewModel
 import kr.co.kurly.core.ui.PriceLineType
@@ -73,6 +74,8 @@ data class HomeUiState(
 sealed interface HomeUiEvent : UiEvent {
   @JvmInline
   value class OnScrolledToEnd(val nextPage: Int) : HomeUiEvent
+  data class OnClickedMarkedFavorite(val sectionId: Int, val productId: Int) : HomeUiEvent
+  data class OnClickedUnmarkedFavorite(val sectionId: Int, val productId: Int) : HomeUiEvent
 
 }
 
@@ -97,6 +100,30 @@ class HomeViewModel @Inject constructor(
     when (event) {
       is HomeUiEvent.OnScrolledToEnd -> {
         setEffect { HomeUiSideEffect.Load.More(event.nextPage) }
+      }
+      is HomeUiEvent.OnClickedMarkedFavorite -> {
+        viewModelScope.launch {
+          runCatching {
+            productRepository.unmarkFavorite(
+              dtoRequest = FavoriteMakingDtoRequest(
+                sectionId = event.sectionId,
+                productId = event.productId
+              )
+            )
+          }.onFailure(::setErrorState)
+        }
+      }
+      is HomeUiEvent.OnClickedUnmarkedFavorite -> {
+        viewModelScope.launch {
+          runCatching {
+            productRepository.markFavorite(
+              dtoRequest = FavoriteMakingDtoRequest(
+                sectionId = event.sectionId,
+                productId = event.productId
+              )
+            )
+          }.onFailure(::setErrorState)
+        }
       }
     }
   }

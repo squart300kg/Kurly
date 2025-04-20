@@ -42,6 +42,12 @@ fun HomeScreen(
   HomeScreen(
     uiState = uiState,
     modifier = modifier,
+    onClickedMarkedFavorite = { sectionId, productId ->
+      viewModel.setEvent(HomeUiEvent.OnClickedMarkedFavorite(sectionId, productId))
+    },
+    onClickedUnmarkedFavorite = { sectionId, productId ->
+      viewModel.setEvent(HomeUiEvent.OnClickedUnmarkedFavorite(sectionId, productId))
+    },
     onScrollToEnd = { nextPage ->
       viewModel.setEvent(HomeUiEvent.OnScrolledToEnd(nextPage))
     }
@@ -54,6 +60,8 @@ fun HomeScreen(
   modifier: Modifier = Modifier,
   uiState: HomeUiState,
   onScrollToEnd: (nextPage: Int) -> Unit = {},
+  onClickedMarkedFavorite: (sectionId: Int, productId: Int) -> Unit = { _, _ -> },
+  onClickedUnmarkedFavorite: (sectionId: Int, productId: Int) -> Unit = { _, _ -> },
   configuration: Configuration = LocalConfiguration.current
 ) {
   val listState = rememberLazyListState()
@@ -90,7 +98,19 @@ fun HomeScreen(
                         ProductSection(
                           modifier = Modifier
                             .width((configuration.screenWidthDp / 2).dp),
-                          productUiModel = productUiModel
+                          productUiModel = productUiModel,
+                          onClickedMarkedFavorite = {
+                            onClickedMarkedFavorite(
+                              homeUiModel.section.id,
+                              productUiModel.id
+                            )
+                          },
+                          onClickedUnmarkedFavorite = {
+                            onClickedUnmarkedFavorite(
+                              homeUiModel.section.id,
+                              productUiModel.id
+                            )
+                          }
                         )
                       }
                     }
@@ -116,7 +136,19 @@ fun HomeScreen(
                           key(productUiModel.id) {
                             ProductSection(
                               modifier = Modifier.weight(1f),
-                              productUiModel = productUiModel
+                              productUiModel = productUiModel,
+                              onClickedMarkedFavorite = {
+                                onClickedMarkedFavorite(
+                                  homeUiModel.section.id,
+                                  productUiModel.id
+                                )
+                              },
+                              onClickedUnmarkedFavorite = {
+                                onClickedUnmarkedFavorite(
+                                  homeUiModel.section.id,
+                                  productUiModel.id
+                                )
+                              }
                             )
                           }
                         }
@@ -142,7 +174,19 @@ fun HomeScreen(
                       key(productUiModel.id) {
                         ProductSection(
                           modifier = Modifier.fillMaxWidth(),
-                          productUiModel = productUiModel
+                          productUiModel = productUiModel,
+                          onClickedMarkedFavorite = {
+                            onClickedMarkedFavorite(
+                              homeUiModel.section.id,
+                              productUiModel.id
+                            )
+                          },
+                          onClickedUnmarkedFavorite = {
+                            onClickedUnmarkedFavorite(
+                              homeUiModel.section.id,
+                              productUiModel.id
+                            )
+                          }
                         )
                       }
                     }

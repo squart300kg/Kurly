@@ -58,11 +58,11 @@ class ProductRepositoryImpl @Inject constructor(
   }
 
   override fun markFavorite(dtoRequest: FavoriteMakingDtoRequest) {
-    TODO("Not yet implemented")
+    println("favoriteLog, markFavorite: $dtoRequest")
   }
 
   override fun unmarkFavorite(dtoRequest: FavoriteMakingDtoRequest) {
-    TODO("Not yet implemented")
+    println("favoriteLog, unmarkFavorite: $dtoRequest")
   }
 }
 

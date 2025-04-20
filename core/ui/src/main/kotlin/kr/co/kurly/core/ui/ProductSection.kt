@@ -1,16 +1,11 @@
 package kr.co.kurly.core.ui
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,20 +13,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
-import androidx.compose.ui.unit.min
 import coil.compose.rememberAsyncImagePainter
 import kr.co.architecture.core.ui.R
-import kr.co.kurly.core.model.PriceType
-import kr.co.kurly.core.repository.dto.SectionProductDtoResponse
 import kr.co.kurly.core.ui.preview.ProductUiModelPreviewParam
 
 data class ProductUiModel(
@@ -51,7 +40,9 @@ enum class ProductSectionType {
 @Composable
 fun ProductSection(
   modifier: Modifier = Modifier,
-  productUiModel: ProductUiModel
+  productUiModel: ProductUiModel,
+  onClickedMarkedFavorite: () -> Unit = {},
+  onClickedUnmarkedFavorite: () -> Unit = {}
 ) {
   Column(modifier) {
     Box(
@@ -85,7 +76,13 @@ fun ProductSection(
       )
       Image(
         modifier = Modifier
-          .align(Alignment.TopEnd),
+          .align(Alignment.TopEnd)
+          .baseClickable(
+            onClick = when (productUiModel.isFavorite) {
+              true -> onClickedMarkedFavorite
+              false -> onClickedUnmarkedFavorite
+            }
+          ),
         painter = painterResource(
           if (productUiModel.isFavorite) R.drawable.ic_btn_heart_on
           else R.drawable.ic_btn_heart_off),
