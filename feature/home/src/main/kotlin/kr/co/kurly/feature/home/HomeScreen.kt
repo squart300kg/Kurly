@@ -5,15 +5,23 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.pullToRefresh
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
@@ -48,6 +56,9 @@ fun HomeScreen(
     onClickedUnmarkedFavorite = { sectionId, productId ->
       viewModel.setEvent(HomeUiEvent.OnClickedUnmarkedFavorite(sectionId, productId))
     },
+    onPullToRefresh = {
+      viewModel.setEvent(HomeUiEvent.OnPullToRefresh)
+    },
     onScrollToEnd = { nextPage ->
       viewModel.setEvent(HomeUiEvent.OnScrolledToEnd(nextPage))
     }
@@ -55,6 +66,7 @@ fun HomeScreen(
 
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
   modifier: Modifier = Modifier,
@@ -62,6 +74,7 @@ fun HomeScreen(
   onScrollToEnd: (nextPage: Int) -> Unit = {},
   onClickedMarkedFavorite: (sectionId: Int, productId: Int) -> Unit = { _, _ -> },
   onClickedUnmarkedFavorite: (sectionId: Int, productId: Int) -> Unit = { _, _ -> },
+  onPullToRefresh: () -> Unit = {},
   configuration: Configuration = LocalConfiguration.current
 ) {
   val listState = rememberLazyListState()
@@ -71,11 +84,17 @@ fun HomeScreen(
     onScrollToEnd = { onScrollToEnd(it) }
   )
 
+  val pullToRefreshState = rememberPullToRefreshState()
   when (uiState.uiType) {
     HomeUiType.NONE -> {}
     HomeUiType.LOADED -> {
       LazyColumn(
-        modifier = modifier,
+        modifier = modifier
+          .pullToRefresh(
+            state = pullToRefreshState,
+            isRefreshing = uiState.isRefresh,
+            onRefresh = onPullToRefresh
+          ),
         state = listState
       ) {
         uiState.homeUiModels.forEach { homeUiModel ->
@@ -389,4 +408,10 @@ fun HomeScreen(
       }
     }
   }
+
+  PullToRefreshBox(
+    isRefreshing = uiState.isRefresh,
+    onRefresh = onPullToRefresh,
+    state = pullToRefreshState
+  ) { }
 }

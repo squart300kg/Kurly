@@ -71,12 +71,14 @@ data class HomeUiState(
   val uiType: HomeUiType = HomeUiType.NONE,
   val homeUiModels: ImmutableList<HomeUiModel> = persistentListOf(),
   val nextPage: Int? = null,
-  val isLoading: Boolean = false
+  val isLoading: Boolean = false,
+  val isRefresh: Boolean = false,
 ) : UiState
 
 sealed interface HomeUiEvent : UiEvent {
   @JvmInline
   value class OnScrolledToEnd(val nextPage: Int) : HomeUiEvent
+  data object OnPullToRefresh : HomeUiEvent
   data class OnClickedMarkedFavorite(val sectionId: Int, val productId: Int) : HomeUiEvent
   data class OnClickedUnmarkedFavorite(val sectionId: Int, val productId: Int) : HomeUiEvent
 
@@ -85,6 +87,7 @@ sealed interface HomeUiEvent : UiEvent {
 sealed interface HomeUiSideEffect : UiSideEffect {
   sealed interface Load : HomeUiSideEffect {
     data object First : Load
+    data object Refresh : Load
     data class More(val pageId: Int) : Load
   }
 }
@@ -128,6 +131,9 @@ class HomeViewModel @Inject constructor(
           }.onFailure(::setErrorState)
         }
       }
+      is HomeUiEvent.OnPullToRefresh -> {
+        setEffect { HomeUiSideEffect.Load.Refresh }
+      }
     }
   }
 
@@ -165,12 +171,29 @@ class HomeViewModel @Inject constructor(
     viewModelScope.launch {
       getProductsUseCase(
         page = when (loadType) {
-          is HomeUiSideEffect.Load.First -> 1
+          is HomeUiSideEffect.Load.First,
+          is HomeUiSideEffect.Load.Refresh -> 1
           is HomeUiSideEffect.Load.More -> loadType.pageId
         }
       )
-        .onStart { }
-        .onCompletion { }
+        .onStart {
+          setState {
+            if (loadType is HomeUiSideEffect.Load.Refresh) {
+              copy(isRefresh = true)
+            } else {
+              copy(isLoading = true)
+            }
+          }
+        }
+        .onCompletion {
+          setState {
+            if (loadType is HomeUiSideEffect.Load.Refresh) {
+              copy(isRefresh = false)
+            } else {
+              copy(isLoading = false)
+            }
+          }
+        }
         .catch { setErrorState(it) }
         .collect {
           setState {
@@ -178,7 +201,8 @@ class HomeViewModel @Inject constructor(
               uiType = HomeUiType.LOADED,
               homeUiModels =
               when (loadType) {
-                is HomeUiSideEffect.Load.First -> {
+                is HomeUiSideEffect.Load.First,
+                is HomeUiSideEffect.Load.Refresh -> {
                   HomeUiModel.mapperToUiModel(it)
                 }
                 is HomeUiSideEffect.Load.More -> {
