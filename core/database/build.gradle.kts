@@ -4,16 +4,12 @@ plugins {
 }
 
 android {
-  namespace = "kr.co.architecture.core.repository"
+  namespace = "kr.co.architecture.core.database"
 
   defaultConfig { }
 
   dependencies {
     implementation(project(":core:model"))
-    implementation(project(":core:network"))
-    implementation(project(":core:database"))
-
-    implementation(libs.com.github.skydoves.sandwich)
+    implementation(project(":core:repository"))
   }
 }
-
