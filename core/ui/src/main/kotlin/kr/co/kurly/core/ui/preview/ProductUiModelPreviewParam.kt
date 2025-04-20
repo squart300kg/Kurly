@@ -25,7 +25,7 @@ class ProductUiModelPreviewParam : PreviewParameterProvider<ProductUiModel> {
       id = 1,
       image = "https://img-cf.kurly.com/shop/data/goods/165303902534l0.jpg",
       name = "맛있는 바나나",
-      isFavorite = false,
+      isFavorite = true,
       productSectionType = ProductSectionType.NORMAL,
       priceUiModel = PriceUiModel(
         priceType = PriceType.Discounted(
@@ -52,7 +52,7 @@ class ProductUiModelPreviewParam : PreviewParameterProvider<ProductUiModel> {
 
       image = "https://img-cf.kurly.com/shop/data/goods/165303902534l0.jpg",
       name = "맛있는 바나나",
-      isFavorite = false,
+      isFavorite = true,
       productSectionType = ProductSectionType.WIDTH_EXPANDED,
       priceUiModel = PriceUiModel(
         priceType = PriceType.Discounted(

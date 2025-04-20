@@ -7,9 +7,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -19,10 +21,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.dimensionResource
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
+import androidx.compose.ui.unit.min
 import coil.compose.rememberAsyncImagePainter
 import kr.co.architecture.core.ui.R
 import kr.co.kurly.core.model.PriceType
@@ -49,29 +54,28 @@ fun ProductSection(
   productUiModel: ProductUiModel
 ) {
   Column(modifier) {
-    val imageModifier by rememberUpdatedState(
-      when (productUiModel.productSectionType) {
-        ProductSectionType.NORMAL -> Modifier
-          .width(dimensionResource(R.dimen.product_width))
-          .height(dimensionResource(R.dimen.product_height))
-        ProductSectionType.WIDTH_EXPANDED -> Modifier
-          .fillMaxWidth()
-          .aspectRatio(3f / 2f)
-      }
-    )
-    val contentScale by rememberUpdatedState(
-      when (productUiModel.productSectionType) {
-        ProductSectionType.NORMAL -> ContentScale.Fit
-        ProductSectionType.WIDTH_EXPANDED -> ContentScale.FillWidth
-      }
-    )
-
     Box(
-      modifier = imageModifier
+      modifier = Modifier
         .align(Alignment.CenterHorizontally),
     ) {
+      val imageModifier by rememberUpdatedState(
+        when (productUiModel.productSectionType) {
+          ProductSectionType.NORMAL -> Modifier
+            .widthIn(max = dimensionResource(R.dimen.product_width))
+            .heightIn(max = dimensionResource(R.dimen.product_height))
+          ProductSectionType.WIDTH_EXPANDED -> Modifier
+            .fillMaxWidth()
+            .aspectRatio(3f / 2f)
+        }
+      )
+      val contentScale by rememberUpdatedState(
+        when (productUiModel.productSectionType) {
+          ProductSectionType.NORMAL -> ContentScale.Fit
+          ProductSectionType.WIDTH_EXPANDED -> ContentScale.FillWidth
+        }
+      )
       Image(
-        modifier = Modifier
+        modifier = imageModifier
           .align(Alignment.Center),
         painter = rememberAsyncImagePainter(
           model = productUiModel.image
@@ -79,12 +83,13 @@ fun ProductSection(
         contentScale = contentScale,
         contentDescription = null,
       )
-      Box(
+      Image(
         modifier = Modifier
-          .padding(top = 20.dp, end = 20.dp)
-          .size(50.dp)
-          .background(Color.Cyan)
-          .align(Alignment.TopEnd)
+          .align(Alignment.TopEnd),
+        painter = painterResource(
+          if (productUiModel.isFavorite) R.drawable.ic_btn_heart_on
+          else R.drawable.ic_btn_heart_off),
+        contentDescription = null
       )
     }
 
