@@ -76,6 +76,8 @@ class ProductRepositoryImpl @Inject constructor(
   }
 
   override suspend fun unmarkFavorite(dtoRequest: FavoriteMakingDtoRequest) {
+    println("favoriteLog : unmarkFavorite, $dtoRequest")
+
     withContext(ioDispatcher) {
       favoriteProductDao.delete(
         sectionId = dtoRequest.sectionId,

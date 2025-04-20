@@ -6,8 +6,11 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.onCompletion
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import kr.co.kurly.core.domain.GetProductsUseCase
@@ -25,6 +28,7 @@ import kr.co.kurly.core.ui.UiEvent
 import kr.co.kurly.core.ui.UiSideEffect
 import kr.co.kurly.core.ui.UiState
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 enum class HomeUiType {
   NONE,
@@ -132,43 +136,34 @@ class HomeViewModel @Inject constructor(
 
     viewModelScope.launch {
       productRepository.observeAllFavoriteIds()
-        .collect { dtoResponses ->
-          uiState.value.homeUiModels.map { homeUiModel ->
-            dtoResponses
-
+        .onEach {
+          while(uiState.value.homeUiModels.isEmpty()) {
+            delay(100L)
           }
-
-
-
-
-
-
-
-
-          uiState.value.homeUiModels.map { homeUiModel ->
-            val sectionIndex = dtoResponses.indexOfFirst { dtoResponse ->
-              dtoResponse.sectionId == homeUiModel.section.id
-            }
-            if (sectionIndex != -1) {
-              val productIndex = homeUiModel.productUiModels.indexOfFirst { productUiModel ->
-                productUiModel.id == dtoResponses[sectionIndex].productId
-              }
-              if (productIndex != -1) {
-                setState {
-                  copy(
-                    homeUiModels = this.homeUiModels.toMutableList().apply {
-                      this[sectionIndex] = this[sectionIndex].copy(
-                        productUiModels = this[sectionIndex].productUiModels
+        }
+        .collect { dtoResponses ->
+          uiState.value.homeUiModels.mapIndexed { homeUiModelIndex, homeUiModel ->
+            homeUiModel.productUiModels.mapIndexed { productUiModelIndex, productUiModel ->
+              val sectionIds = dtoResponses.map { it.sectionId }
+              val productIds = dtoResponses.map { it.productId }
+              setState {
+                copy(
+                  homeUiModels = homeUiModels
+                    .toMutableList()
+                    .apply {
+                      this[homeUiModelIndex] = this[homeUiModelIndex].copy(
+                        productUiModels = this[homeUiModelIndex].productUiModels
                           .toMutableList()
                           .apply {
-                            this[productIndex] = this[productIndex].copy(
-                              isFavorite = true
+                            this[productUiModelIndex] = this[productUiModelIndex].copy(
+                              isFavorite =
+                                sectionIds.contains(homeUiModel.section.id) &&
+                                productIds.contains(productUiModel.id)
                             )
                           }.toPersistentList()
                       )
                     }.toPersistentList()
-                  )
-                }
+                )
               }
             }
           }
