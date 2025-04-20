@@ -11,7 +11,7 @@ import androidx.compose.ui.composed
 import kotlinx.coroutines.delay
 
 fun Modifier.baseClickable(
-  delayMillis: Long = 1000L,
+  delayMillis: Long = 200L,
   onClick: () -> Unit
 ): Modifier = composed {
   var isClickable by remember { mutableStateOf(true) }
