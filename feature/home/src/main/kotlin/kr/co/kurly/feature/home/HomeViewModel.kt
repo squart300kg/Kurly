@@ -3,6 +3,7 @@ package kr.co.kurly.feature.home
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
@@ -57,7 +58,7 @@ data class HomeUiModel(
             )
           }.toImmutableList()
         )
-      }.toImmutableList()
+      }.toPersistentList()
     }
   }
 }
@@ -129,10 +130,8 @@ class HomeViewModel @Inject constructor(
               setState {
                 copy(
                   uiType = HomeUiType.LOADED,
-                  homeUiModel = homeUiModel
-                    .toMutableList()
-                    .apply { addAll(HomeUiModel.mapperToUiModel(it)) }
-                    .toImmutableList(),
+                  homeUiModel = (homeUiModel as PersistentList)
+                    .addAll(HomeUiModel.mapperToUiModel(it)),
                   nextPage = it.nextPage
                 )
               }
