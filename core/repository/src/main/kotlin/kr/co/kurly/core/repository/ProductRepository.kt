@@ -14,8 +14,8 @@ interface ProductRepository {
 
   fun observeAllFavoriteIds(): Flow<Int>
 
-  fun markFavorite(dtoRequest: FavoriteMakingDtoRequest)
+  suspend fun markFavorite(dtoRequest: FavoriteMakingDtoRequest)
 
-  fun unmarkFavorite(dtoRequest: FavoriteMakingDtoRequest)
+  suspend fun unmarkFavorite(dtoRequest: FavoriteMakingDtoRequest)
 
 }

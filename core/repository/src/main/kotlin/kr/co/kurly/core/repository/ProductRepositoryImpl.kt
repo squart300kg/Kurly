@@ -2,7 +2,9 @@ package kr.co.kurly.core.repository
 
 import com.skydoves.sandwich.suspendOperator
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flow
+import kr.co.kurly.core.database.dao.ProductDao
 import kr.co.kurly.core.network.ProductApiService
 import kr.co.kurly.core.network.operator.ResponseBaseOperator
 import kr.co.kurly.core.repository.dto.CommonDtoResponse
@@ -12,7 +14,8 @@ import kr.co.kurly.core.repository.dto.SectionProductDtoResponse
 import javax.inject.Inject
 
 class ProductRepositoryImpl @Inject constructor(
-  private val productApiService: ProductApiService
+  private val productApiService: ProductApiService,
+  private val productDao: ProductDao
 ) : ProductRepository {
   override fun getSections(page: Int): Flow<CommonDtoResponse<SectionDtoResponse>> {
     return flow {
@@ -57,11 +60,13 @@ class ProductRepositoryImpl @Inject constructor(
     TODO("Not yet implemented")
   }
 
-  override fun markFavorite(dtoRequest: FavoriteMakingDtoRequest) {
+  override suspend  fun markFavorite(dtoRequest: FavoriteMakingDtoRequest) {
     println("favoriteLog, markFavorite: $dtoRequest")
+    val favoriteProducts = productDao.observeAllFavoriteProducts().first()
+    println("favoriteLog, markFavorite, favoriteProducts: $favoriteProducts")
   }
 
-  override fun unmarkFavorite(dtoRequest: FavoriteMakingDtoRequest) {
+  override suspend fun unmarkFavorite(dtoRequest: FavoriteMakingDtoRequest) {
     println("favoriteLog, unmarkFavorite: $dtoRequest")
   }
 }

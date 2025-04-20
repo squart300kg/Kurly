@@ -10,6 +10,9 @@ android {
 
   dependencies {
     implementation(project(":core:model"))
-    implementation(project(":core:repository"))
+
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.runtime)
+    ksp(libs.androidx.room.compiler)
   }
 }
