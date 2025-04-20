@@ -142,30 +142,20 @@ class HomeViewModel @Inject constructor(
           }
         }
         .collect { dtoResponses ->
-          uiState.value.homeUiModels.mapIndexed { homeUiModelIndex, homeUiModel ->
-            homeUiModel.productUiModels.mapIndexed { productUiModelIndex, productUiModel ->
-              val sectionIds = dtoResponses.map { it.sectionId }
-              val productIds = dtoResponses.map { it.productId }
-              setState {
-                copy(
-                  homeUiModels = homeUiModels
-                    .toMutableList()
-                    .apply {
-                      this[homeUiModelIndex] = this[homeUiModelIndex].copy(
-                        productUiModels = this[homeUiModelIndex].productUiModels
-                          .toMutableList()
-                          .apply {
-                            this[productUiModelIndex] = this[productUiModelIndex].copy(
-                              isFavorite =
-                                sectionIds.contains(homeUiModel.section.id) &&
-                                productIds.contains(productUiModel.id)
-                            )
-                          }.toPersistentList()
-                      )
-                    }.toPersistentList()
-                )
+          val updatedHomeUiModels = uiState.value.homeUiModels.map { homeUiModel ->
+            val updatedProductUiModels = homeUiModel.productUiModels.map { productUiModel ->
+              val isFavorite = dtoResponses.any {
+                  it.sectionId == homeUiModel.section.id &&
+                  it.productId == productUiModel.id
               }
-            }
+              productUiModel.copy(isFavorite = isFavorite)
+            }.toPersistentList()
+
+            homeUiModel.copy(productUiModels = updatedProductUiModels)
+          }.toPersistentList()
+
+          setState {
+            copy(homeUiModels = updatedHomeUiModels)
           }
         }
     }
