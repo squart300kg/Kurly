@@ -8,7 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kr.co.kurly.core.database.AppDatabase
-import kr.co.kurly.core.database.dao.ProductDao
+import kr.co.kurly.core.database.dao.FavoriteProductDao
 import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
@@ -23,13 +23,13 @@ object RoomModule {
     return Room.databaseBuilder(
       appContext,
       AppDatabase::class.java,
-      "korean_investment.db"
+      "kurly.db"
     ).build()
   }
 
   @Provides
   @Singleton
-  fun provideMarvelCharacterDao(database: AppDatabase): ProductDao {
+  fun provideMarvelCharacterDao(database: AppDatabase): FavoriteProductDao {
     return database.productDao()
   }
 }

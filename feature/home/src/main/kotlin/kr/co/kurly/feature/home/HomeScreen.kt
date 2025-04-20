@@ -77,8 +77,8 @@ fun HomeScreen(
       LazyColumn(
         modifier = modifier,
         state = listState
-        ) {
-        uiState.homeUiModel.forEach { homeUiModel ->
+      ) {
+        uiState.homeUiModels.forEach { homeUiModel ->
           when (homeUiModel.section.type) {
             SectionType.HORIZONTAL -> {
               item {

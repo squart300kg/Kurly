@@ -5,7 +5,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.PersistentList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
@@ -57,7 +56,7 @@ data class HomeUiModel(
                 else PriceLineType.TWO_LINE
               )
             )
-          }.toImmutableList()
+          }.toPersistentList()
         )
       }.toPersistentList()
     }
@@ -66,7 +65,7 @@ data class HomeUiModel(
 
 data class HomeUiState(
   val uiType: HomeUiType = HomeUiType.NONE,
-  val homeUiModel: ImmutableList<HomeUiModel> = persistentListOf(),
+  val homeUiModels: ImmutableList<HomeUiModel> = persistentListOf(),
   val nextPage: Int? = null,
   val isLoading: Boolean = false
 ) : UiState
@@ -130,6 +129,51 @@ class HomeViewModel @Inject constructor(
 
   init {
     setEffect { HomeUiSideEffect.Load.First }
+
+    viewModelScope.launch {
+      productRepository.observeAllFavoriteIds()
+        .collect { dtoResponses ->
+          uiState.value.homeUiModels.map { homeUiModel ->
+            dtoResponses
+
+          }
+
+
+
+
+
+
+
+
+          uiState.value.homeUiModels.map { homeUiModel ->
+            val sectionIndex = dtoResponses.indexOfFirst { dtoResponse ->
+              dtoResponse.sectionId == homeUiModel.section.id
+            }
+            if (sectionIndex != -1) {
+              val productIndex = homeUiModel.productUiModels.indexOfFirst { productUiModel ->
+                productUiModel.id == dtoResponses[sectionIndex].productId
+              }
+              if (productIndex != -1) {
+                setState {
+                  copy(
+                    homeUiModels = this.homeUiModels.toMutableList().apply {
+                      this[sectionIndex] = this[sectionIndex].copy(
+                        productUiModels = this[sectionIndex].productUiModels
+                          .toMutableList()
+                          .apply {
+                            this[productIndex] = this[productIndex].copy(
+                              isFavorite = true
+                            )
+                          }.toPersistentList()
+                      )
+                    }.toPersistentList()
+                  )
+                }
+              }
+            }
+          }
+        }
+    }
   }
 
   fun fetchData(loadType: HomeUiSideEffect.Load) {
@@ -147,13 +191,13 @@ class HomeViewModel @Inject constructor(
           setState {
             copy(
               uiType = HomeUiType.LOADED,
-              homeUiModel =
+              homeUiModels =
               when (loadType) {
                 is HomeUiSideEffect.Load.First -> {
                   HomeUiModel.mapperToUiModel(it)
                 }
                 is HomeUiSideEffect.Load.More -> {
-                  (homeUiModel as PersistentList)
+                  (homeUiModels as PersistentList)
                     .addAll(HomeUiModel.mapperToUiModel(it))
                 }
               },
