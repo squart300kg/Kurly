@@ -19,11 +19,16 @@ class ProductRepositoryImpl @Inject constructor(
       productApiService.getSections(page = page)
         .suspendOperator(
           ResponseBaseOperator(
-            onSuccess = {
+            onSuccess = { apiResponse ->
               emit(
-                value = it.data
+                value = apiResponse.data
                   .map(SectionDtoResponse::mapperToDto)
-                  .let(::CommonDtoResponse)
+                  .let { dtoResponse ->
+                    CommonDtoResponse(
+                      data = dtoResponse,
+                      paging = apiResponse.paging
+                    )
+                  }
               )
             }
           )

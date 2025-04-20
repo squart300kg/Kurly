@@ -5,6 +5,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toImmutableList
+import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
@@ -56,8 +57,7 @@ data class HomeUiModel(
             )
           }.toImmutableList()
         )
-      }
-        .toImmutableList()
+      }.toImmutableList()
     }
   }
 }
@@ -70,6 +70,8 @@ data class HomeUiState(
 ) : UiState
 
 sealed interface HomeUiEvent : UiEvent {
+  @JvmInline
+  value class OnScrolledToEnd(val nextPage: Int): HomeUiEvent
 
 }
 
@@ -92,29 +94,51 @@ class HomeViewModel @Inject constructor(
 
   override fun handleEvent(event: HomeUiEvent) {
     when (event) {
-      else -> {}
+      is HomeUiEvent.OnScrolledToEnd -> {
+        setEffect { HomeUiSideEffect.Load.More(event.nextPage) }
+      }
     }
   }
 
-  init {
-    setEffect { HomeUiSideEffect.Load.First }
-  }
+  init { setEffect { HomeUiSideEffect.Load.First } }
 
-  fun fetchData() {
+  fun fetchData(loadType: HomeUiSideEffect.Load) {
     viewModelScope.launch {
-      getProductsUseCase(page = 1)
-        .onStart { }
-        .onCompletion { }
-        .catch { setErrorState(it) }
-        .collect {
-          setState {
-            copy(
-              uiType = HomeUiType.LOADED,
-              homeUiModel = HomeUiModel.mapperToUiModel(it),
-              nextPage = it.nextPage
-            )
-          }
+      when (loadType) {
+        is HomeUiSideEffect.Load.First -> {
+          getProductsUseCase(1)
+            .onStart { }
+            .onCompletion { }
+            .catch { setErrorState(it) }
+            .collect {
+              setState {
+                copy(
+                  uiType = HomeUiType.LOADED,
+                  homeUiModel = HomeUiModel.mapperToUiModel(it),
+                  nextPage = it.nextPage
+                )
+              }
+            }
         }
+        is HomeUiSideEffect.Load.More -> {
+          getProductsUseCase(loadType.pageId)
+            .onStart { }
+            .onCompletion { }
+            .catch { setErrorState(it) }
+            .collect {
+              setState {
+                copy(
+                  uiType = HomeUiType.LOADED,
+                  homeUiModel = homeUiModel
+                    .toMutableList()
+                    .apply { addAll(HomeUiModel.mapperToUiModel(it)) }
+                    .toImmutableList(),
+                  nextPage = it.nextPage
+                )
+              }
+            }
+        }
+      }
     }
   }
 }

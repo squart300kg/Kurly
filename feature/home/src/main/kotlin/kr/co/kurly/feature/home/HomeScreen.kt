@@ -34,7 +34,7 @@ fun HomeScreen(
   LaunchedEffect(Unit) {
     viewModel.uiSideEffect.collect { effect ->
       when (effect) {
-        is HomeUiSideEffect.Load -> viewModel.fetchData()
+        is HomeUiSideEffect.Load -> viewModel.fetchData(effect)
       }
     }
   }
@@ -42,7 +42,9 @@ fun HomeScreen(
   HomeScreen(
     uiState = uiState,
     modifier = modifier,
-    onScrollToEnd = {}
+    onScrollToEnd = { nextPage ->
+      viewModel.setEvent(HomeUiEvent.OnScrolledToEnd(nextPage))
+    }
   )
 
 }
@@ -51,14 +53,14 @@ fun HomeScreen(
 fun HomeScreen(
   modifier: Modifier = Modifier,
   uiState: HomeUiState,
-  onScrollToEnd: () -> Unit = {},
+  onScrollToEnd: (nextPage: Int) -> Unit = {},
   configuration: Configuration = LocalConfiguration.current
 ) {
   val listState = rememberLazyListState()
   PaginationLoadEffect(
     listState = listState,
     nextPage = uiState.nextPage,
-    onScrollToEnd = { onScrollToEnd() }
+    onScrollToEnd = { onScrollToEnd(it) }
   )
 
   when (uiState.uiType) {
