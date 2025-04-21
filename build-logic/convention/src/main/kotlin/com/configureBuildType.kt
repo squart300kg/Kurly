@@ -25,6 +25,7 @@ internal fun Project.configureBuildType(
     (this as? ApplicationExtension)?.apply {
       buildTypes {
         getByName("release") {
+          isDebuggable = true
           signingConfig = signingConfigs.getByName("release")
         }
       }
