@@ -1,9 +1,12 @@
 package kr.co.kurly.feature.home
 
 import android.content.res.Configuration
+import androidx.compose.foundation.background
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -23,6 +26,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -223,9 +227,27 @@ fun HomeScreen(
     }
   }
 
-  PullToRefreshBox(
-    isRefreshing = uiState.isRefresh,
-    onRefresh = onPullToRefresh,
-    state = pullToRefreshState
-  ) { }
+  Box(modifier = modifier
+    .fillMaxWidth()
+  ) {
+    PullToRefreshBox(
+      modifier = Modifier
+        .align(Alignment.Center),
+      isRefreshing = uiState.isRefresh,
+      onRefresh = onPullToRefresh,
+      state = pullToRefreshState
+    ) { }
+  }
+
+  if (uiState.isLoading) {
+    Box(modifier = modifier
+      .fillMaxSize()
+    ) {
+      CircularProgressIndicator(
+        modifier = Modifier
+          .align(Alignment.Center),
+        color = Color.Gray
+      )
+    }
+  }
 }
