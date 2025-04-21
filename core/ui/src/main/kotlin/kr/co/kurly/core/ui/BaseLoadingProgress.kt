@@ -11,7 +11,7 @@ import androidx.compose.ui.graphics.Color
 
 @Composable
 fun BaseLoadingProgress(
-  modifier: Modifier,
+  modifier: Modifier = Modifier,
   isLoading: Boolean
 ) {
   if (isLoading) {

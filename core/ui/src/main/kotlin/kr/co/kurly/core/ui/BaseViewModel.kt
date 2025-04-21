@@ -23,9 +23,8 @@ abstract class BaseViewModel<State : UiState, Event : UiEvent, Effect : UiSideEf
 
   private val initialState: State by lazy { createInitialState() }
 
-  private val _errorMessageState: MutableStateFlow<CenterErrorDialogMessage?> =
-    MutableStateFlow(null)
-  val errorMessageState = _errorMessageState.asStateFlow()
+  private val _errorMessageState: MutableSharedFlow<CenterErrorDialogMessage> = MutableSharedFlow()
+  val errorMessageState = _errorMessageState.asSharedFlow()
 
   private val _uiState: MutableStateFlow<State> = MutableStateFlow(initialState)
   val uiState = _uiState.asStateFlow()
@@ -65,25 +64,28 @@ abstract class BaseViewModel<State : UiState, Event : UiEvent, Effect : UiSideEf
   }
 
   protected fun setErrorState(throwable: Throwable?) {
-    _errorMessageState.update {
-      when (throwable) {
-        is ArchitectureSampleHttpException -> {
-          CenterErrorDialogMessage(
-            errorCode = throwable.code,
-            titleMessage = "[${throwable.code}]",
-            contentMessage = throwable.message,
-            confirmButtonMessage = "확인",
-          )
+    viewModelScope.launch {
+      _errorMessageState.emit(
+        when (throwable) {
+          is ArchitectureSampleHttpException -> {
+            CenterErrorDialogMessage(
+              errorCode = throwable.code,
+              titleMessage = "[${throwable.code}]",
+              contentMessage = throwable.message,
+              confirmButtonMessage = "확인",
+            )
+          }
+          else -> {
+            CenterErrorDialogMessage(
+              errorCode = -1,
+              titleMessage = throwable?.stackTraceToString().toString(),
+              contentMessage = "",
+              confirmButtonMessage = "취소"
+            )
+          }
         }
-        else -> {
-          CenterErrorDialogMessage(
-            errorCode = -1,
-            titleMessage = throwable?.stackTraceToString().toString(),
-            contentMessage = "",
-            confirmButtonMessage = "취소"
-          )
-        }
-      }
+      )
     }
   }
+
 }
