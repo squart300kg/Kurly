@@ -43,7 +43,7 @@ gradlePlugin {
     }
     register("androidBenchmarks") {
       id = "architecture.sample.benchmarks"
-      implementationClass = "AndroidBenchmarkPlugin"
+      implementationClass = "AndroidBenchmarksPlugin"
     }
   }
 }

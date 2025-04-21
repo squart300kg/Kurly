@@ -2,7 +2,7 @@ plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.architecture.sample.base.setting)
   alias(libs.plugins.architecture.sample.ui)
-  id("androidx.baselineprofile") version libs.versions.baselineProfile
+  alias(libs.plugins.androidx.baseline.profile)
 }
 
 android {
