@@ -17,10 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.key
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
@@ -28,10 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kr.co.kurly.core.model.SectionType
-import kr.co.kurly.core.ui.BaseErrorCenterDialog
-import kr.co.kurly.core.ui.BaseLoadingProgress
 import kr.co.kurly.core.ui.BasePullToRefresh
-import kr.co.kurly.core.ui.CenterErrorDialogMessage
 import kr.co.kurly.core.ui.CommonHorizontalDivider
 import kr.co.kurly.core.ui.ProductSection
 import kr.co.kurly.core.ui.model.LocalOnErrorMessageChanged
@@ -44,8 +38,6 @@ fun HomeScreen(
   viewModel: HomeViewModel = hiltViewModel()
 ) {
   val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-  var errorMessageState: CenterErrorDialogMessage? by remember { mutableStateOf(null) }
-
   LaunchedEffect(Unit) {
     viewModel.uiSideEffect.collect { effect ->
       when (effect) {
@@ -79,8 +71,6 @@ fun HomeScreen(
       localOnErrorMessageChanged(it)
     }
   }
-
-
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

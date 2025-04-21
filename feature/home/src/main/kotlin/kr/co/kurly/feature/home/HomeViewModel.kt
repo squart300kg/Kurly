@@ -45,6 +45,9 @@ class HomeViewModel @Inject constructor(
       is HomeUiEvent.OnScrolledToEnd -> {
         setEffect { HomeUiSideEffect.Load.More(event.nextPage) }
       }
+      is HomeUiEvent.OnPullToRefresh -> {
+        setEffect { HomeUiSideEffect.Load.Refresh }
+      }
       is HomeUiEvent.OnClickedMarkedFavorite -> {
         viewModelScope.launch {
           runCatching {
@@ -68,9 +71,6 @@ class HomeViewModel @Inject constructor(
             )
           }.onFailure(::setErrorState)
         }
-      }
-      is HomeUiEvent.OnPullToRefresh -> {
-        setEffect { HomeUiSideEffect.Load.Refresh }
       }
     }
   }
