@@ -20,6 +20,7 @@ import androidx.compose.runtime.key
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -97,6 +98,7 @@ fun HomeScreen(
     HomeUiType.LOADED -> {
       LazyColumn(
         modifier = modifier
+          .testTag("productList")
           .pullToRefresh(
             state = pullToRefreshState,
             isRefreshing = uiState.isRefresh,
@@ -107,120 +109,114 @@ fun HomeScreen(
         uiState.homeUiModels.forEach { homeUiModel ->
           when (homeUiModel.section.type) {
             SectionType.HORIZONTAL -> {
-              item {
-                key(homeUiModel.section.id) {
-                  Text(
-                    modifier = Modifier,
-                    text = homeUiModel.section.title,
-                    fontSize = 18.sp
-                  )
-                  Row(
-                    modifier = Modifier
-                      .fillMaxWidth()
-                      .horizontalScroll(rememberScrollState())
-                  ) {
-                    homeUiModel.productUiModels.forEachIndexed { index, productUiModel ->
-                      key(productUiModel.id) {
-                        ProductSection(
-                          modifier = Modifier
-                            .width((configuration.screenWidthDp / 2).dp),
-                          productUiModel = productUiModel,
-                          onClickedMarkedFavorite = {
-                            onClickedMarkedFavorite(
-                              homeUiModel.section.id,
-                              productUiModel.id
-                            )
-                          },
-                          onClickedUnmarkedFavorite = {
-                            onClickedUnmarkedFavorite(
-                              homeUiModel.section.id,
-                              productUiModel.id
-                            )
-                          }
-                        )
-                      }
+              item(key = homeUiModel.section.id) {
+                Text(
+                  modifier = Modifier,
+                  text = homeUiModel.section.title,
+                  fontSize = 18.sp
+                )
+                Row(
+                  modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState())
+                ) {
+                  homeUiModel.productUiModels.forEachIndexed { index, productUiModel ->
+                    key(productUiModel.id) {
+                      ProductSection(
+                        modifier = Modifier
+                          .width((configuration.screenWidthDp / 2).dp),
+                        productUiModel = productUiModel,
+                        onClickedMarkedFavorite = {
+                          onClickedMarkedFavorite(
+                            homeUiModel.section.id,
+                            productUiModel.id
+                          )
+                        },
+                        onClickedUnmarkedFavorite = {
+                          onClickedUnmarkedFavorite(
+                            homeUiModel.section.id,
+                            productUiModel.id
+                          )
+                        }
+                      )
                     }
                   }
-                  CommonHorizontalDivider(
-                    verticalSpacerDp = 20.dp
-                  )
                 }
+                CommonHorizontalDivider(
+                  verticalSpacerDp = 20.dp
+                )
               }
             }
             SectionType.GRID -> {
-              item {
-                key(homeUiModel.section.id) {
-                  Text(
-                    modifier = Modifier,
-                    text = homeUiModel.section.title,
-                    fontSize = 18.sp
-                  )
-                  Column {
-                    homeUiModel.productUiModels.chunked(3).forEach { products ->
-                      Row {
-                        products.forEach { productUiModel ->
-                          key(productUiModel.id) {
-                            ProductSection(
-                              modifier = Modifier.weight(1f),
-                              productUiModel = productUiModel,
-                              onClickedMarkedFavorite = {
-                                onClickedMarkedFavorite(
-                                  homeUiModel.section.id,
-                                  productUiModel.id
-                                )
-                              },
-                              onClickedUnmarkedFavorite = {
-                                onClickedUnmarkedFavorite(
-                                  homeUiModel.section.id,
-                                  productUiModel.id
-                                )
-                              }
-                            )
-                          }
+              item(key = homeUiModel.section.id) {
+                Text(
+                  modifier = Modifier,
+                  text = homeUiModel.section.title,
+                  fontSize = 18.sp
+                )
+                Column {
+                  homeUiModel.productUiModels.chunked(3).forEach { products ->
+                    Row {
+                      products.forEach { productUiModel ->
+                        key(productUiModel.id) {
+                          ProductSection(
+                            modifier = Modifier.weight(1f),
+                            productUiModel = productUiModel,
+                            onClickedMarkedFavorite = {
+                              onClickedMarkedFavorite(
+                                homeUiModel.section.id,
+                                productUiModel.id
+                              )
+                            },
+                            onClickedUnmarkedFavorite = {
+                              onClickedUnmarkedFavorite(
+                                homeUiModel.section.id,
+                                productUiModel.id
+                              )
+                            }
+                          )
                         }
                       }
                     }
                   }
-                  CommonHorizontalDivider(
-                    verticalSpacerDp = 20.dp
-                  )
                 }
+                CommonHorizontalDivider(
+                  verticalSpacerDp = 20.dp
+                )
               }
             }
             SectionType.VERTICAL -> {
-              item {
-                key(homeUiModel.section.id) {
-                  Text(
-                    modifier = Modifier,
-                    text = homeUiModel.section.title,
-                    fontSize = 18.sp
-                  )
-                  Column {
-                    homeUiModel.productUiModels.forEach { productUiModel ->
-                      key(productUiModel.id) {
-                        ProductSection(
-                          modifier = Modifier.fillMaxWidth(),
-                          productUiModel = productUiModel,
-                          onClickedMarkedFavorite = {
-                            onClickedMarkedFavorite(
-                              homeUiModel.section.id,
-                              productUiModel.id
-                            )
-                          },
-                          onClickedUnmarkedFavorite = {
-                            onClickedUnmarkedFavorite(
-                              homeUiModel.section.id,
-                              productUiModel.id
-                            )
-                          }
-                        )
-                      }
+              item(key = homeUiModel.section.id) {
+                Text(
+                  modifier = Modifier,
+                  text = homeUiModel.section.title,
+                  fontSize = 18.sp
+                )
+                Column {
+                  homeUiModel.productUiModels.forEach { productUiModel ->
+                    key(productUiModel.id) {
+                      ProductSection(
+                        modifier = Modifier.fillMaxWidth(),
+                        productUiModel = productUiModel,
+                        onClickedMarkedFavorite = {
+                          onClickedMarkedFavorite(
+                            homeUiModel.section.id,
+                            productUiModel.id
+                          )
+                        },
+                        onClickedUnmarkedFavorite = {
+                          onClickedUnmarkedFavorite(
+                            homeUiModel.section.id,
+                            productUiModel.id
+                          )
+                        }
+                      )
                     }
                   }
-                  CommonHorizontalDivider(
-                    verticalSpacerDp = 20.dp
-                  )
                 }
+                CommonHorizontalDivider(
+                  verticalSpacerDp = 20.dp
+                )
               }
             }
             SectionType.NONE -> {}
