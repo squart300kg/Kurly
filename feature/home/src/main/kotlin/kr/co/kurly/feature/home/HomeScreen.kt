@@ -18,6 +18,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshState
 import androidx.compose.material3.pulltorefresh.pullToRefresh
 import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
@@ -33,6 +34,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kr.co.kurly.core.model.SectionType
+import kr.co.kurly.core.ui.BaseLoadingProgress
+import kr.co.kurly.core.ui.BasePullToRefresh
 import kr.co.kurly.core.ui.CommonHorizontalDivider
 import kr.co.kurly.core.ui.ProductSection
 import kr.co.kurly.core.ui.util.PaginationLoadEffect
@@ -227,27 +230,15 @@ fun HomeScreen(
     }
   }
 
-  Box(modifier = modifier
-    .fillMaxWidth()
-  ) {
-    PullToRefreshBox(
-      modifier = Modifier
-        .align(Alignment.Center),
-      isRefreshing = uiState.isRefresh,
-      onRefresh = onPullToRefresh,
-      state = pullToRefreshState
-    ) { }
-  }
+  BasePullToRefresh(
+    modifier = modifier,
+    pullToRefreshState = pullToRefreshState,
+    isRefresh = uiState.isRefresh,
+    onPullToRefresh = onPullToRefresh
+  )
 
-  if (uiState.isLoading) {
-    Box(modifier = modifier
-      .fillMaxSize()
-    ) {
-      CircularProgressIndicator(
-        modifier = Modifier
-          .align(Alignment.Center),
-        color = Color.Gray
-      )
-    }
-  }
+  BaseLoadingProgress(
+    modifier = modifier,
+    isLoading = uiState.isLoading
+  )
 }
