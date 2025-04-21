@@ -12,19 +12,6 @@ internal fun Project.configureBenchmarks(
   pluginManager.apply("org.jetbrains.kotlin.android")
 
   (commonExtension as TestExtension).apply {
-    compileSdk = 35
-
-    defaultConfig {
-      minSdk = 26
-      targetSdk = 35
-      testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-
-    compileOptions {
-      sourceCompatibility = JavaVersion.VERSION_21
-      targetCompatibility = JavaVersion.VERSION_21
-    }
-
     targetProjectPath = ":app"
     experimentalProperties["android.experimental.self-instrumenting"] = true
 
