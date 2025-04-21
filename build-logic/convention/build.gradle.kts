@@ -41,5 +41,9 @@ gradlePlugin {
       id = "architecture.sample.base.setting"
       implementationClass = "AndroidBaseSettingPlugin"
     }
+    register("androidBenchmarks") {
+      id = "architecture.sample.benchmarks"
+      implementationClass = "AndroidBenchmarkPlugin"
+    }
   }
 }

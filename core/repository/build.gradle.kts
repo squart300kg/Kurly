@@ -10,8 +10,8 @@ android {
 
   dependencies {
     implementation(project(":core:model"))
-    implementation(project(":core:network"))
-    implementation(project(":core:database"))
+    api(project(":core:network"))
+    api(project(":core:database"))
 
     implementation(libs.com.github.skydoves.sandwich)
   }

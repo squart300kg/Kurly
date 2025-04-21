@@ -1,1 +1,43 @@
--keep class kr.co.architecture.core.network.model.** { *; }
+-keep class kr.co.kurly.core.database.dao.FavoriteProductDao { *; }
+-keep class kr.co.kurly.core.database.di.RoomModule_ProvideDatabaseFactory { *; }
+-keep class kr.co.kurly.core.database.di.RoomModule_ProvideMarvelCharacterDaoFactory { *; }
+-keep class kr.co.kurly.core.domain.GetProductsUseCaseImpl { *; }
+-keep class kr.co.kurly.core.network.ProductApiService { *; }
+-keep class kr.co.kurly.core.network.di.NetworkModule_ProvideDebugInterceptorFactory { *; }
+-keep class kr.co.kurly.core.network.di.NetworkModule_ProvideGsonConverterFactory { *; }
+-keep class kr.co.kurly.core.network.di.NetworkModule_ProvideMarbleCharacterApiFactory { *; }
+-keep class kr.co.kurly.core.network.di.NetworkModule_ProvideMockInterceptorFactory { *; }
+-keep class kr.co.kurly.core.network.di.NetworkModule_ProvideOkHttpClientFactory { *; }
+-keep class kr.co.kurly.core.network.interceptor.MockInterceptor { *; }
+-keep class kr.co.kurly.core.repository.ProductRepository { *; }
+-keep class kr.co.kurly.core.repository.ProductRepositoryImpl { *; }
+-keep class kr.co.kurly.core.repository.di.CoroutinesModule_ProvidesIoDispatcherFactory { *; }
+-keep class kr.co.kurly.core.ui.BaseErrorCenterDialogKt { *; }
+-keep class kr.co.kurly.core.ui.BaseLoadingProgressKt { *; }
+-keep class kr.co.kurly.core.ui.CenterErrorDialogMessage { *; }
+-keep class kr.co.kurly.core.ui.model.LocalOnErrorMessageChangedKt { *; }
+-keep class kr.co.kurly.feature.home.HomeScreenKt { *; }
+-keep class kr.co.kurly.feature.home.HomeViewModel { *; }
+
+-dontwarn kr.co.kurly.core.database.dao.FavoriteProductDao
+-dontwarn kr.co.kurly.core.database.di.RoomModule_ProvideDatabaseFactory
+-dontwarn kr.co.kurly.core.database.di.RoomModule_ProvideMarvelCharacterDaoFactory
+-dontwarn kr.co.kurly.core.domain.GetProductsUseCaseImpl
+-dontwarn kr.co.kurly.core.network.ProductApiService
+-dontwarn kr.co.kurly.core.network.di.NetworkModule_ProvideDebugInterceptorFactory
+-dontwarn kr.co.kurly.core.network.di.NetworkModule_ProvideGsonConverterFactory
+-dontwarn kr.co.kurly.core.network.di.NetworkModule_ProvideMarbleCharacterApiFactory
+-dontwarn kr.co.kurly.core.network.di.NetworkModule_ProvideMockInterceptorFactory
+-dontwarn kr.co.kurly.core.network.di.NetworkModule_ProvideOkHttpClientFactory
+-dontwarn kr.co.kurly.core.network.interceptor.MockInterceptor
+-dontwarn kr.co.kurly.core.repository.ProductRepository
+-dontwarn kr.co.kurly.core.repository.ProductRepositoryImpl
+-dontwarn kr.co.kurly.core.repository.di.CoroutinesModule_ProvidesIoDispatcherFactory
+-dontwarn kr.co.kurly.core.ui.BaseErrorCenterDialogKt
+-dontwarn kr.co.kurly.core.ui.BaseLoadingProgressKt
+-dontwarn kr.co.kurly.core.ui.CenterErrorDialogMessage
+-dontwarn kr.co.kurly.core.ui.model.LocalOnErrorMessageChangedKt
+-dontwarn kr.co.kurly.feature.home.HomeScreenKt
+
+#-keep class kr.co.kurly.** { *; }
+#-dontwarn kr.co.kurly.**

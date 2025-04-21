@@ -17,7 +17,7 @@ internal fun Project.configureBaseSetting(
     when (this) {
       is ApplicationExtension -> {
         defaultConfig {
-          defaultConfig.targetSdk = 33
+          defaultConfig.targetSdk = 35
 
           applicationId = "kr.co.kurly.ssy"
           versionCode = 1
@@ -32,7 +32,7 @@ internal fun Project.configureBaseSetting(
         }
       }
     }
-    compileSdk = 34
+    compileSdk = 35
     defaultConfig.minSdk = 26
 
     compileOptions {

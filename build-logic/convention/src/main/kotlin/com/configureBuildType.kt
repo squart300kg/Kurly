@@ -17,9 +17,9 @@ internal fun Project.configureBuildType(
         val RELEASE_KEY_PASSWORD: String by this@configureBuildType
 
         storeFile = this@configureBuildType.file("./keystore/ssyssy.jks")
-        storePassword = System.getenv("RELEASE_PASSWD") ?: RELEASE_KEYSTORE_PASSWORD
+        storePassword = System.getenv("RELEASE_KEYSTORE_PASSWORD") ?: RELEASE_KEYSTORE_PASSWORD
         keyAlias = System.getenv("RELEASE_KEY_ALIAS") ?: RELEASE_KEY_ALIAS
-        keyPassword = System.getenv("RELEASE_KEY_PASSWD") ?: RELEASE_KEY_PASSWORD
+        keyPassword = System.getenv("RELEASE_KEY_PASSWORD") ?: RELEASE_KEY_PASSWORD
       }
     }
     (this as? ApplicationExtension)?.apply {
@@ -31,7 +31,7 @@ internal fun Project.configureBuildType(
     }
     buildTypes {
       getByName("release") {
-        isMinifyEnabled = true
+        isMinifyEnabled = false
         proguardFiles(
           getDefaultProguardFile("proguard-android-optimize.txt"),
           "proguard-rules.pro"
