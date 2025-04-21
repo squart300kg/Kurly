@@ -119,20 +119,20 @@ class HomeViewModel @Inject constructor(
         .catch { setErrorState(it) }
         .collect { domainResponse ->
           val favoriteIds = cachedProductFavoriteIds.first()
+          val homeUiModels = when (loadType) {
+            is HomeUiSideEffect.Load.First,
+            is HomeUiSideEffect.Load.Refresh -> {
+              HomeUiModel.mapperToUiModel(domainResponse)
+            }
+            is HomeUiSideEffect.Load.More -> {
+              (uiState.value.homeUiModels as PersistentList)
+                .addAll(HomeUiModel.mapperToUiModel(domainResponse))
+            }
+          }
           setState {
             copy(
               uiType = HomeUiType.LOADED,
-              homeUiModels =
-              when (loadType) {
-                is HomeUiSideEffect.Load.First,
-                is HomeUiSideEffect.Load.Refresh -> {
-                  HomeUiModel.mapperToUiModel(domainResponse).syncWithFavoriteIdsAndGet(favoriteIds)
-                }
-                is HomeUiSideEffect.Load.More -> {
-                  (homeUiModels as PersistentList)
-                    .addAll(HomeUiModel.mapperToUiModel(domainResponse)).syncWithFavoriteIdsAndGet(favoriteIds)
-                }
-              },
+              homeUiModels = homeUiModels.syncWithFavoriteIdsAndGet(favoriteIds),
               nextPage = domainResponse.nextPage
             )
           }
