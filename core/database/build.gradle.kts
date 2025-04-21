@@ -4,12 +4,12 @@ plugins {
 }
 
 android {
-  namespace = "kr.co.architecture.core.database"
+  namespace = "kr.co.kurly.core.database"
 
   defaultConfig { }
 
   dependencies {
-    implementation(project(":core:model"))
+    api(project(":core:model"))
 
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.runtime)

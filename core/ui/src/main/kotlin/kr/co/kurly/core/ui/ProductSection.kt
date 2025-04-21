@@ -20,7 +20,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import coil.compose.rememberAsyncImagePainter
-import kr.co.architecture.core.ui.R
+import kr.co.kurly.core.ui.R
 import kr.co.kurly.core.ui.preview.ProductUiModelPreviewParam
 
 data class ProductUiModel(

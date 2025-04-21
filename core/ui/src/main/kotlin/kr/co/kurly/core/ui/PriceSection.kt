@@ -13,10 +13,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
-import kr.co.architecture.core.ui.R
 import kr.co.kurly.core.model.PriceType
 import kr.co.kurly.core.ui.preview.PriceUiModelPreviewParam
-import kr.co.kurly.core.ui.preview.ProductUiModelPreviewParam
 
 data class PriceUiModel(
   val priceType: PriceType,

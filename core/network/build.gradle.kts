@@ -16,7 +16,7 @@ android {
   }
 
   dependencies {
-    implementation(project(":core:model"))
+    api(project(":core:model"))
 
     implementation(libs.okhttp.logging)
     implementation(libs.retrofit.core)

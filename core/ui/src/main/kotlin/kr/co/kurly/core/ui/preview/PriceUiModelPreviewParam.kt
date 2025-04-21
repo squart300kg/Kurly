@@ -2,11 +2,8 @@ package kr.co.kurly.core.ui.preview
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import kr.co.kurly.core.model.PriceType
-import kr.co.kurly.core.repository.dto.SectionProductDtoResponse
 import kr.co.kurly.core.ui.PriceLineType
 import kr.co.kurly.core.ui.PriceUiModel
-import kr.co.kurly.core.ui.ProductSectionType
-import kr.co.kurly.core.ui.ProductUiModel
 
 class PriceUiModelPreviewParam : PreviewParameterProvider<PriceUiModel> {
   override val values: Sequence<PriceUiModel> = sequenceOf(

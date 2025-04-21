@@ -4,12 +4,11 @@ plugins {
 }
 
 android {
-  namespace = "kr.co.architecture.core.repository"
+  namespace = "kr.co.kurly.core.repository"
 
   defaultConfig { }
 
   dependencies {
-    implementation(project(":core:model"))
     api(project(":core:network"))
     api(project(":core:database"))
 

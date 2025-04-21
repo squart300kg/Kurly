@@ -5,14 +5,13 @@ plugins {
 }
 
 android {
-  namespace = "kr.co.architecture.feature.home"
+  namespace = "kr.co.kurly.feature.home"
 
   defaultConfig { }
 
   dependencies {
     implementation(project(":core:ui"))
     implementation(project(":core:domain"))
-    implementation(project(":core:model"))
     implementation(project(":core:repository"))
     implementation(project(":testing"))
   }
