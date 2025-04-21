@@ -78,9 +78,9 @@ abstract class BaseViewModel<State : UiState, Event : UiEvent, Effect : UiSideEf
           else -> {
             CenterErrorDialogMessage(
               errorCode = -1,
-              titleMessage = throwable?.stackTraceToString().toString(),
-              contentMessage = "",
-              confirmButtonMessage = "취소"
+              titleMessage = throwable?.message.toString(),
+              contentMessage = throwable?.stackTraceToString().toString(),
+              confirmButtonMessage = "확인"
             )
           }
         }
