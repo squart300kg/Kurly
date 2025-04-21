@@ -77,7 +77,7 @@ class HomeViewModel @Inject constructor(
         .collect { dtoResponses ->
           cachedProductFavoriteIds.emit(dtoResponses)
           setState {
-            val homeUiModels = homeUiModels.syncWithFavoriteIdsAndGet(dtoResponses)
+            val homeUiModels = homeUiModels.applyWithFavoriteIds(dtoResponses)
             copy(
               uiType =
               if (homeUiModels.isNotEmpty()) HomeUiType.LOADED
@@ -132,7 +132,7 @@ class HomeViewModel @Inject constructor(
           setState {
             copy(
               uiType = HomeUiType.LOADED,
-              homeUiModels = homeUiModels.syncWithFavoriteIdsAndGet(favoriteIds),
+              homeUiModels = homeUiModels.applyWithFavoriteIds(favoriteIds),
               nextPage = domainResponse.nextPage
             )
           }
@@ -140,7 +140,7 @@ class HomeViewModel @Inject constructor(
     }
   }
 
-  private fun ImmutableList<HomeUiModel>.syncWithFavoriteIdsAndGet(
+  private fun ImmutableList<HomeUiModel>.applyWithFavoriteIds(
     dtoResponses: List<FavoriteMakingDtoResponse>
   ): ImmutableList<HomeUiModel> {
     val updatedHomeUiModels = this.map { homeUiModel ->
