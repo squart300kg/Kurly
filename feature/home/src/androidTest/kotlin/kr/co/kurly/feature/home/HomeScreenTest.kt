@@ -26,4 +26,15 @@ class HomeScreenTest {
       .assertDoesNotExist()
   }
 
+  @Test
+  fun whenFirstUiLoaded_thenShowLoadedTypeUi() {
+    composeTestRule.setContent {
+      HomeScreen(
+        uiState = HomeUiStateTestData.loadedState
+      )
+    }
+    composeTestRule
+      .onNodeWithTag(PRODUCT_LIST)
+      .assertExists()
+  }
 }
