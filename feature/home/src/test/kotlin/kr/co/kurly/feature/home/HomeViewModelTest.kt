@@ -9,6 +9,7 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
+import kr.co.kurly.core.domain.GetProductsUseCaseImpl
 import kr.co.kurly.test.testing.repository.TestProductRepository
 import kr.co.kurly.test.testing.usecase.TestGetProductUseCase
 import kr.co.kurly.test.testing.util.MainDispatcherRule
@@ -27,7 +28,7 @@ class HomeViewModelTest {
 
   private lateinit var viewModel: HomeViewModel
   private val productRepository = TestProductRepository()
-  private val getProductUseCase = TestGetProductUseCase()
+  private val getProductUseCase = GetProductsUseCaseImpl(productRepository)
 
   @Before
   fun setup() {
@@ -62,4 +63,39 @@ class HomeViewModelTest {
 
     job.cancel()
   }
+
+  @Test
+  fun whenAppFirstLoaded_thenSetLoadedType() = runTest {
+    val job = baseSideEffectJob()
+
+    advanceUntilIdle()
+    val expected = viewModel.uiState.value.uiType
+    val actual = HomeUiType.LOADED
+
+    assertEquals(
+      expected,
+      actual
+    )
+
+    job.cancel()
+  }
+
+  @Test
+  fun whenLoadedTypeIsSet_thenItemsIsAtLeastOne() = runTest {
+    val job = baseSideEffectJob()
+
+    advanceUntilIdle()
+    val expected = viewModel.uiState.value.uiType
+    val actual = HomeUiType.LOADED
+
+    assertEquals(
+      expected,
+      actual
+    )
+
+    job.cancel()
+  }
+
+
+
 }
