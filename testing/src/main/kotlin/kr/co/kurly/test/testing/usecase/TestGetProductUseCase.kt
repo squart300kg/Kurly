@@ -33,8 +33,8 @@ class TestGetProductUseCase : GetProductsUseCase {
                 image = "https://img-cf.kurly.com/shop/data/goods/165303902534l0.jpg",
                 isSoldOut = productIndex % 2 == 0,
                 name = "${productIndex}_맛있는 바나나",
-                isFavorite = productIndex % 2 == 0,
-                )
+                isFavorite = productIndex % 2 == 0
+              )
             },
           )
         },
