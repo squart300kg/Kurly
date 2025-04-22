@@ -1,6 +1,7 @@
 package kr.co.kurly.feature.home
 
 import androidx.activity.ComponentActivity
+import androidx.compose.ui.test.hasScrollToNodeAction
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -115,5 +116,29 @@ class HomeScreenTest {
       updatedUnmarkedProducts,
       markedProducts
     )
+  }
+
+  @Test
+  fun whenScrolledToEnd_thenLoadNextPage() {
+    var nextPage: Int? = null
+    composeTestRule.setContent {
+      HomeScreen(
+        uiState = HomeUiStateTestData.loadedState,
+        onScrollToEnd = { nextPage = it }
+      )
+    }
+
+    val lastProductId = HomeUiStateTestData.loadedState.homeUiModels
+      .flatMap { it.productUiModels }
+      .last()
+      .id
+
+    composeTestRule
+      .onNodeWithTag(PRODUCT_LIST) // LazyColumn
+      .performScrollToNode(
+        hasTestTag("${lastProductId}_$PRODUCT_MARK_ICON")
+      )
+
+    assert(nextPage == HomeUiStateTestData.loadedState.nextPage)
   }
 }

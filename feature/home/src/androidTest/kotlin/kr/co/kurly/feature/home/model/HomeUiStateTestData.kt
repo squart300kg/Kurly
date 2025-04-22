@@ -52,6 +52,7 @@ object HomeUiStateTestData {
               )
           )
         }
-      )
+      ),
+    nextPage = 2
   )
 }
