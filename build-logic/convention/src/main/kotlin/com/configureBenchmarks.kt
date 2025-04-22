@@ -12,6 +12,10 @@ internal fun Project.configureBenchmarks(
   pluginManager.apply("org.jetbrains.kotlin.android")
 
   (commonExtension as TestExtension).apply {
+    defaultConfig {
+      testInstrumentationRunnerArguments["androidx.benchmark.fullTracing.enable"] = "true"
+      testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
     targetProjectPath = ":app"
     experimentalProperties["android.experimental.self-instrumenting"] = true
 
@@ -20,6 +24,8 @@ internal fun Project.configureBenchmarks(
       add("implementation", libs.findLibrary("androidx-espresso-core").get())
       add("implementation", libs.findLibrary("androidx-uiautomator").get())
       add("implementation", libs.findLibrary("androidx-benchmark-macro-junit4").get())
+      add("implementation", libs.findLibrary("androidx-tracing-tracing-perfetto").get())
+      add("implementation", libs.findLibrary("androidx-tracing-tracing-perfetto-binary").get())
     }
   }
 }

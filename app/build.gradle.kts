@@ -15,6 +15,10 @@ android {
     implementation(project(":core:ui"))
     implementation(project(":core:domain"))
     implementation(project(":core:repository"))
+
+    implementation(libs.androidx.profile.installer)
+    implementation(libs.androidx.compose.runtime.tracing)
+    baselineProfile(project(":benchmarks"))
   }
 }
 

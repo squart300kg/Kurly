@@ -41,6 +41,7 @@ androidGradlePlugin = "8.8.2"
 jetbrainsKotlin = "2.0.0"
 serializationPluginVer = "1.7.10"
 baselineProfile = "1.2.4"
+runtimeTracing = "1.7.8"
 
 # libraries and plugins
 daggerHilt = "2.52"
@@ -49,6 +50,8 @@ ksp = "2.0.0-1.0.21"
 espressoCore = "3.6.1"
 uiautomator = "2.3.0"
 benchmarkMacroJunit4 = "1.3.4"
+profileinstaller = "1.4.1"
+perfetto = "1.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
@@ -101,6 +104,10 @@ com-airbnb-android-lottie-compose = { group = "com.airbnb.android", name = "lott
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
 androidx-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "uiautomator" }
 androidx-benchmark-macro-junit4 = { group = "androidx.benchmark", name = "benchmark-macro-junit4", version.ref = "benchmarkMacroJunit4" }
+androidx-profile-installer = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "profileinstaller" }
+androidx-tracing-tracing-perfetto = { group = "androidx.tracing", name = "tracing-perfetto", version.ref = "perfetto" }
+androidx-tracing-tracing-perfetto-binary = { group = "androidx.tracing", name = "tracing-perfetto-binary", version.ref = "perfetto" }
+androidx-compose-runtime-tracing = { group = "androidx.compose.runtime", name = "runtime-tracing", version.ref = "runtimeTracing" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }

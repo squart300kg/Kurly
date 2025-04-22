@@ -23,6 +23,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.util.trace
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kr.co.kurly.core.model.SectionType
@@ -117,6 +118,7 @@ fun HomeScreen(
                 )
                 Row(
                   modifier = Modifier
+                    .testTag("horizontalItems")
                     .fillMaxWidth()
                     .horizontalScroll(rememberScrollState())
                 ) {
@@ -192,7 +194,10 @@ fun HomeScreen(
                   text = homeUiModel.section.title,
                   fontSize = 18.sp
                 )
-                Column {
+                Column(
+                  modifier = Modifier
+                    .testTag("verticalItems")
+                ) {
                   homeUiModel.productUiModels.forEach { productUiModel ->
                     key(productUiModel.id) {
                       ProductSection(
@@ -214,6 +219,7 @@ fun HomeScreen(
                     }
                   }
                 }
+
                 CommonHorizontalDivider(
                   verticalSpacerDp = 20.dp
                 )
