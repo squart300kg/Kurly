@@ -66,23 +66,16 @@ class HomeScreenTest {
         .onNode(hasTestTag(PRODUCT_LIST))
         .performScrollToIndex(homeUiModelIndex)
 
-      homeUiModel.productUiModels.forEachIndexed { productUiModelIndex, productUiModel ->
+      homeUiModel.productUiModels.forEach { productUiModel ->
         when (homeUiModel.section.type) {
           SectionType.NONE,
-          SectionType.GRID -> {
-            composeTestRule
-              .onNode(hasTestTag("${productUiModel.id}_${PRODUCT_MARK_ICON}"))
-              .performClick()
-          }
+          SectionType.GRID -> { }
           SectionType.VERTICAL -> {
             composeTestRule
               .onNode(hasTestTag("${homeUiModel.section.id}_${VERTICAL_ITEMS}"))
               .performScrollToNode(
                 hasTestTag("${productUiModel.id}_${PRODUCT_MARK_ICON}")
               )
-            composeTestRule
-              .onNode(hasTestTag("${productUiModel.id}_${PRODUCT_MARK_ICON}"))
-              .performClick()
           }
           SectionType.HORIZONTAL -> {
             composeTestRule
@@ -90,12 +83,11 @@ class HomeScreenTest {
               .performScrollToNode(
                 hasTestTag("${productUiModel.id}_${PRODUCT_MARK_ICON}")
               )
-            composeTestRule
-              .onNode(hasTestTag("${productUiModel.id}_${PRODUCT_MARK_ICON}"))
-              .performClick()
           }
         }
-//        Thread.sleep(1000L)
+        composeTestRule
+          .onNode(hasTestTag("${productUiModel.id}_${PRODUCT_MARK_ICON}"))
+          .performClick()
       }
     }
 
@@ -114,6 +106,7 @@ class HomeScreenTest {
             .map { it.id }
         }
         .flatten()
+
     assertEquals(
       updatedMarkedProducts,
       unmarkedProducts
