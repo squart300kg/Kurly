@@ -4,6 +4,8 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.uiautomator.By
+import kr.co.kurly.test.testing.ui.TestTag.HORIZONTAL_ITEMS
+import kr.co.kurly.test.testing.ui.TestTag.PRODUCT_LIST
 import org.junit.Rule
 import org.junit.Test
 
@@ -19,9 +21,9 @@ class KurlyAppListScrollBaselineProfile {
       startActivityAndWait()
 
       // 전체 리스트 영역
-      val productList = device.waitAndFindObject(By.res("productList"))
+      val productList = device.waitAndFindObject(By.res(PRODUCT_LIST))
       // 수평 스크롤 대상 요소 가져오기
-      val horizontalItems = productList.waitAndFindObject(By.res("horizontalItems"))
+      val horizontalItems = productList.waitAndFindObject(By.res(HORIZONTAL_ITEMS))
       // 수평 스크롤 실행 (RIGHT 방향)
       device.flingElementRight(horizontalItems)
       // 수직 스크롤 (DOWN)

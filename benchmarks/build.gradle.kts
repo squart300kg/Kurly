@@ -10,4 +10,7 @@ android {
   defaultConfig { }
 }
 
-dependencies { }
+dependencies {
+  api(project(":testing"))
+
+}

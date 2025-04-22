@@ -33,6 +33,9 @@ import kr.co.kurly.core.ui.ProductSection
 import kr.co.kurly.core.ui.model.LocalOnErrorMessageChanged
 import kr.co.kurly.core.ui.model.LocalOnLoadingStateChanged
 import kr.co.kurly.core.ui.util.PaginationLoadEffect
+import kr.co.kurly.test.testing.ui.TestTag.HORIZONTAL_ITEMS
+import kr.co.kurly.test.testing.ui.TestTag.PRODUCT_LIST
+import kr.co.kurly.test.testing.ui.TestTag.VERTICAL_ITEMS
 
 @Composable
 fun HomeScreen(
@@ -99,7 +102,7 @@ fun HomeScreen(
     HomeUiType.LOADED -> {
       LazyColumn(
         modifier = modifier
-          .testTag("productList")
+          .testTag(PRODUCT_LIST)
           .pullToRefresh(
             state = pullToRefreshState,
             isRefreshing = uiState.isRefresh,
@@ -118,7 +121,7 @@ fun HomeScreen(
                 )
                 Row(
                   modifier = Modifier
-                    .testTag("horizontalItems")
+                    .testTag(HORIZONTAL_ITEMS)
                     .fillMaxWidth()
                     .horizontalScroll(rememberScrollState())
                 ) {
@@ -196,7 +199,7 @@ fun HomeScreen(
                 )
                 Column(
                   modifier = Modifier
-                    .testTag("verticalItems")
+                    .testTag(VERTICAL_ITEMS)
                 ) {
                   homeUiModel.productUiModels.forEach { productUiModel ->
                     key(productUiModel.id) {
