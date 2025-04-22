@@ -14,6 +14,7 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
@@ -22,6 +23,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import coil.compose.rememberAsyncImagePainter
 import kr.co.kurly.core.ui.R
 import kr.co.kurly.core.ui.preview.ProductUiModelPreviewParam
+import kr.co.kurly.test.testing.ui.TestTag.PRODUCT_ITEM
+import kr.co.kurly.test.testing.ui.TestTag.PRODUCT_MARK_ICON
 
 data class ProductUiModel(
   val id: Int,
@@ -47,6 +50,7 @@ fun ProductSection(
   Column(modifier) {
     Box(
       modifier = Modifier
+        .testTag(PRODUCT_ITEM)
         .align(Alignment.CenterHorizontally),
     ) {
       val imageModifier by rememberUpdatedState(
@@ -76,6 +80,7 @@ fun ProductSection(
       )
       Image(
         modifier = Modifier
+          .testTag("${productUiModel.id}_${PRODUCT_MARK_ICON}")
           .align(Alignment.TopEnd)
           .baseClickable(
             onClick = when (productUiModel.isFavorite) {

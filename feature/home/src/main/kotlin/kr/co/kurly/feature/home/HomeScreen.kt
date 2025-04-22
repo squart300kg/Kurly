@@ -33,6 +33,7 @@ import kr.co.kurly.core.ui.ProductSection
 import kr.co.kurly.core.ui.model.LocalOnErrorMessageChanged
 import kr.co.kurly.core.ui.model.LocalOnLoadingStateChanged
 import kr.co.kurly.core.ui.util.PaginationLoadEffect
+import kr.co.kurly.test.testing.ui.TestTag.GRID_ITEMS
 import kr.co.kurly.test.testing.ui.TestTag.HORIZONTAL_ITEMS
 import kr.co.kurly.test.testing.ui.TestTag.PRODUCT_LIST
 import kr.co.kurly.test.testing.ui.TestTag.VERTICAL_ITEMS
@@ -121,7 +122,7 @@ fun HomeScreen(
                 )
                 Row(
                   modifier = Modifier
-                    .testTag(HORIZONTAL_ITEMS)
+                    .testTag("${homeUiModel.section.id}_${HORIZONTAL_ITEMS}")
                     .fillMaxWidth()
                     .horizontalScroll(rememberScrollState())
                 ) {
@@ -159,7 +160,10 @@ fun HomeScreen(
                   text = homeUiModel.section.title,
                   fontSize = 18.sp
                 )
-                Column {
+                Column(
+                  modifier = Modifier
+                    .testTag("${homeUiModel.section.id}_${GRID_ITEMS}")
+                ) {
                   homeUiModel.productUiModels.chunked(3).forEach { products ->
                     Row {
                       products.forEach { productUiModel ->
@@ -199,7 +203,7 @@ fun HomeScreen(
                 )
                 Column(
                   modifier = Modifier
-                    .testTag(VERTICAL_ITEMS)
+                    .testTag("${homeUiModel.section.id}_${VERTICAL_ITEMS}")
                 ) {
                   homeUiModel.productUiModels.forEach { productUiModel ->
                     key(productUiModel.id) {
