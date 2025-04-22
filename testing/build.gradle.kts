@@ -10,6 +10,7 @@ android {
 
   dependencies {
     api(project(":core:model"))
+    api(project(":core:domain"))
     api(project(":core:repository"))
 
     implementation(libs.androidx.test.rules)
