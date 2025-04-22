@@ -65,6 +65,7 @@ androidx-compose-material = { group = "androidx.compose.material", name = "mater
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 androidx-navigation-common-ktx = { group = "androidx.navigation", name = "navigation-common", version.ref = "androidxNavigationCommonKtx"}
 hilt-android-gradle-plugin = { module = "com.google.dagger:hilt-android-gradle-plugin", version.ref = "daggerHilt" }
+junit = { group = "junit", name = "junit", version.ref = "junit"}
 androidx-test-ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidxTestExtJunit"}
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 org-mockito-kotlin = { group = "org.mockito.kotlin", name = "mockito-kotlin", version.ref = "orgMockitoKotlin" }
