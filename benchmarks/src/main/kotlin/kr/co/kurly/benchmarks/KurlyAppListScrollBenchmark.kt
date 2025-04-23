@@ -7,10 +7,8 @@ import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.uiautomator.By
 import androidx.test.uiautomator.Direction
-import kr.co.kurly.test.testing.ui.TestTag.GRID_ITEMS
 import kr.co.kurly.test.testing.ui.TestTag.HORIZONTAL_ITEMS
 import kr.co.kurly.test.testing.ui.TestTag.PRODUCT_LIST
-import kr.co.kurly.test.testing.ui.TestTag.VERTICAL_ITEMS
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -22,19 +20,19 @@ class KurlyAppListScrollBenchmark {
   val benchmarkRule = MacrobenchmarkRule()
 
   @Test
-  fun startAndScrollCommunityListWithCompilationNone() = startAndScrollProductList(CompilationMode.None())
+  fun startAndScrollProductListWithCompilationNone() = startAndScrollProductList(CompilationMode.None())
 
   @Test
-  fun startAndScrollCommunityListWithBaselineProfile() = startAndScrollProductList(CompilationMode.Partial())
+  fun startAndScrollProductListWithBaselineProfile() = startAndScrollProductList(CompilationMode.Partial())
 
   @Test
-  fun startAndScrollCommunityListWithFull() = startAndScrollProductList(CompilationMode.Full())
+  fun startAndScrollProductListWithFull() = startAndScrollProductList(CompilationMode.Full())
 
   private fun startAndScrollProductList(compilationMode: CompilationMode) = benchmarkRule.measureRepeated(
     packageName = "kr.co.kurly.ssy",
     metrics = listOf(FrameTimingMetric()),
     compilationMode = compilationMode,
-    iterations = 5,
+    iterations = 1,
     startupMode = StartupMode.WARM,
     setupBlock = {
       pressHome()
