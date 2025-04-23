@@ -34,7 +34,7 @@ class KurlyAppListScrollBenchmark {
     packageName = "kr.co.kurly.ssy",
     metrics = listOf(FrameTimingMetric()),
     compilationMode = compilationMode,
-    iterations = 1,
+    iterations = 5,
     startupMode = StartupMode.WARM,
     setupBlock = {
       pressHome()
@@ -49,8 +49,7 @@ class KurlyAppListScrollBenchmark {
     repeat(2) { device.fling(element = productList, direction = Direction.UP) }
 
     // 수평 스크롤용 첫 horizontal 섹션 찾기
-    val horizontalSection = device.findObject(By.res(Pattern.compile(".*_${HORIZONTAL_ITEMS}")))
-    horizontalSection?.let {
+    device.findObject(By.res(Pattern.compile(".*_${HORIZONTAL_ITEMS}")))?.let { horizontalSection ->
       repeat(2) { device.fling(element = horizontalSection, direction = Direction.RIGHT) }
       repeat(1) { device.fling(element = horizontalSection, direction = Direction.LEFT) }
     }
