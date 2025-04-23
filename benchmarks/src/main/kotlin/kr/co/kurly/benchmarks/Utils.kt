@@ -14,26 +14,10 @@ fun UiDevice.waitAndFindObject(selector: BySelector, timeout: Long = 10_000): Ui
   return findObject(selector)
 }
 
-fun UiObject2.waitAndFindObject(selector: BySelector, timeout: Long = 10_000): UiObject2 {
-  if (!wait(Until.hasObject(selector), timeout)) {
-    throw AssertionError("Element not found on screen in ${timeout}ms (selector=$selector)")
-  }
-
-  return findObject(selector)
-}
-
-fun UiDevice.flingElementDown(element: UiObject2) {
+fun UiDevice.fling(element: UiObject2, direction: Direction) {
   // Set some margin from the sides to prevent triggering system navigation
   element.setGestureMargin(displayWidth / 5)
 
-  element.fling(Direction.DOWN)
-  waitForIdle()
-}
-
-fun UiDevice.flingElementRight(element: UiObject2) {
-  // Set some margin from the sides to prevent triggering system navigation
-  element.setGestureMargin(displayWidth / 5)
-
-  element.fling(Direction.RIGHT)
+  element.fling(direction)
   waitForIdle()
 }

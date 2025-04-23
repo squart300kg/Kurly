@@ -6,11 +6,15 @@ import androidx.benchmark.macro.StartupMode
 import androidx.benchmark.macro.junit4.MacrobenchmarkRule
 import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner
 import androidx.test.uiautomator.By
+import androidx.test.uiautomator.Direction
+import kr.co.kurly.test.testing.ui.TestTag.GRID_ITEMS
 import kr.co.kurly.test.testing.ui.TestTag.HORIZONTAL_ITEMS
 import kr.co.kurly.test.testing.ui.TestTag.PRODUCT_LIST
+import kr.co.kurly.test.testing.ui.TestTag.VERTICAL_ITEMS
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import java.util.regex.Pattern
 
 @RunWith(AndroidJUnit4ClassRunner::class)
 class KurlyAppListScrollBenchmark {
@@ -37,13 +41,18 @@ class KurlyAppListScrollBenchmark {
       startActivityAndWait()
     }
   ) {
-    // 전체 리스트 영역
+    // PRODUCT_LIST 찾기
     val productList = device.waitAndFindObject(By.res(PRODUCT_LIST))
-    // 수평 스크롤 대상 요소 가져오기
-    val horizontalItems = productList.waitAndFindObject(By.res(HORIZONTAL_ITEMS))
-    // 수평 스크롤 실행 (RIGHT 방향)
-    device.flingElementRight(horizontalItems)
-    // 수직 스크롤 (DOWN)
-    device.flingElementDown(productList)
+
+    // 수직 스크롤 (Grid, Vertical 대응)
+    repeat(4) { device.fling(element = productList, direction = Direction.DOWN) }
+    repeat(2) { device.fling(element = productList, direction = Direction.UP) }
+
+    // 수평 스크롤용 첫 horizontal 섹션 찾기
+    val horizontalSection = device.findObject(By.res(Pattern.compile(".*_${HORIZONTAL_ITEMS}")))
+    horizontalSection?.let {
+      repeat(2) { device.fling(element = horizontalSection, direction = Direction.RIGHT) }
+      repeat(1) { device.fling(element = horizontalSection, direction = Direction.LEFT) }
+    }
   }
 }

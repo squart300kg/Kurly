@@ -4,10 +4,12 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.benchmark.macro.junit4.BaselineProfileRule
 import androidx.test.uiautomator.By
+import androidx.test.uiautomator.Direction
 import kr.co.kurly.test.testing.ui.TestTag.HORIZONTAL_ITEMS
 import kr.co.kurly.test.testing.ui.TestTag.PRODUCT_LIST
 import org.junit.Rule
 import org.junit.Test
+import java.util.regex.Pattern
 
 @RequiresApi(Build.VERSION_CODES.P)
 class KurlyAppListScrollBaselineProfile {
@@ -20,13 +22,18 @@ class KurlyAppListScrollBaselineProfile {
     baselineProfileRule.collect("kr.co.kurly.ssy") {
       startActivityAndWait()
 
-      // 전체 리스트 영역
+      // PRODUCT_LIST 찾기
       val productList = device.waitAndFindObject(By.res(PRODUCT_LIST))
-      // 수평 스크롤 대상 요소 가져오기
-      val horizontalItems = productList.waitAndFindObject(By.res(HORIZONTAL_ITEMS))
-      // 수평 스크롤 실행 (RIGHT 방향)
-      device.flingElementRight(horizontalItems)
-      // 수직 스크롤 (DOWN)
-      device.flingElementDown(productList)
+
+      // 수직 스크롤 (Grid, Vertical 대응)
+      repeat(4) { device.fling(element = productList, direction = Direction.DOWN) }
+      repeat(2) { device.fling(element = productList, direction = Direction.UP) }
+
+      // 수평 스크롤용 첫 horizontal 섹션 찾기
+      val horizontalSection = device.findObject(By.res(Pattern.compile(".*_${HORIZONTAL_ITEMS}")))
+      horizontalSection?.let {
+        repeat(2) { device.fling(element = horizontalSection, direction = Direction.RIGHT) }
+        repeat(1) { device.fling(element = horizontalSection, direction = Direction.LEFT) }
+      }
     }
 }
