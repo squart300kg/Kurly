@@ -12,7 +12,7 @@ import kr.co.kurly.feature.home.HomeUiModel
 import kr.co.kurly.feature.home.HomeUiState
 import kr.co.kurly.feature.home.HomeUiType
 
-object HomeUiStateTestData {
+object HomeUiStateMockData {
   val PRODUCT_COUNT = 6
   val initState = HomeUiState()
   val loadedState = HomeUiState(

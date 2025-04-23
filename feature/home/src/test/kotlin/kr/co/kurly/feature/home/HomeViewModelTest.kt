@@ -9,7 +9,7 @@ import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kr.co.kurly.core.domain.GetProductsUseCaseImpl
-import kr.co.kurly.test.testing.repository.TestProductRepository
+import kr.co.kurly.feature.home.mock.TestProductRepository
 import kr.co.kurly.test.testing.util.MainDispatcherRule
 import org.junit.Before
 import org.junit.Rule

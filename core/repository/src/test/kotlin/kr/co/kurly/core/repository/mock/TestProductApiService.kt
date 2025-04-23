@@ -8,10 +8,10 @@ import kr.co.kurly.core.network.model.SectionProductApiResponse
 
 class TestProductApiService: ProductApiService {
   override suspend fun getSections(page: Int): ApiResponse<CommonApiResponse<SectionApiResponse>> {
-    TODO("Not yet implemented")
+    return ApiResponse.of { getSectionApiResponse(page) }
   }
 
   override suspend fun getSectionProduct(sectionId: Int): ApiResponse<CommonApiResponse<SectionProductApiResponse>> {
-    TODO("Not yet implemented")
+    return ApiResponse.of { getSectionProductApiResponse(sectionId) }
   }
 }

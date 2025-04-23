@@ -1,7 +1,6 @@
 package kr.co.kurly.feature.home
 
 import androidx.activity.ComponentActivity
-import androidx.compose.ui.test.hasScrollToNodeAction
 import androidx.compose.ui.test.hasTestTag
 import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithTag
@@ -10,7 +9,7 @@ import androidx.compose.ui.test.performScrollToIndex
 import androidx.compose.ui.test.performScrollToNode
 import junit.framework.TestCase.assertEquals
 import kr.co.kurly.core.model.SectionType
-import kr.co.kurly.feature.home.model.HomeUiStateTestData
+import kr.co.kurly.feature.home.model.HomeUiStateMockData
 import kr.co.kurly.test.testing.ui.TestTag.HORIZONTAL_ITEMS
 import kr.co.kurly.test.testing.ui.TestTag.PRODUCT_LIST
 import kr.co.kurly.test.testing.ui.TestTag.PRODUCT_MARK_ICON
@@ -27,7 +26,7 @@ class HomeScreenTest {
   fun whenFirstUiLoading_thenShowNoneTypeUi() {
     composeTestRule.setContent {
       HomeScreen(
-        uiState = HomeUiStateTestData.initState
+        uiState = HomeUiStateMockData.initState
       )
     }
     composeTestRule
@@ -39,7 +38,7 @@ class HomeScreenTest {
   fun whenFirstUiLoaded_thenShowLoadedTypeUi() {
     composeTestRule.setContent {
       HomeScreen(
-        uiState = HomeUiStateTestData.loadedState
+        uiState = HomeUiStateMockData.loadedState
       )
     }
     composeTestRule
@@ -53,7 +52,7 @@ class HomeScreenTest {
     val updatedUnmarkedProducts = mutableListOf<Int>()
     composeTestRule.setContent {
       HomeScreen(
-        uiState = HomeUiStateTestData.loadedState,
+        uiState = HomeUiStateMockData.loadedState,
         onClickedMarkedFavorite = { sectionId, productId ->
           updatedUnmarkedProducts.add(productId)
         },
@@ -62,7 +61,7 @@ class HomeScreenTest {
         }
       )
     }
-    HomeUiStateTestData.loadedState.homeUiModels.forEachIndexed { homeUiModelIndex, homeUiModel ->
+    HomeUiStateMockData.loadedState.homeUiModels.forEachIndexed { homeUiModelIndex, homeUiModel ->
       composeTestRule
         .onNode(hasTestTag(PRODUCT_LIST))
         .performScrollToIndex(homeUiModelIndex)
@@ -92,7 +91,7 @@ class HomeScreenTest {
       }
     }
 
-    val markedProducts = HomeUiStateTestData.loadedState.homeUiModels
+    val markedProducts = HomeUiStateMockData.loadedState.homeUiModels
       .map { homeUiModel ->
         homeUiModel.productUiModels
           .filter { it.isFavorite }
@@ -100,7 +99,7 @@ class HomeScreenTest {
       }
       .flatten()
 
-    val unmarkedProducts = HomeUiStateTestData.loadedState.homeUiModels
+    val unmarkedProducts = HomeUiStateMockData.loadedState.homeUiModels
         .map { homeUiModel ->
           homeUiModel.productUiModels
             .filter { !it.isFavorite }
@@ -123,12 +122,12 @@ class HomeScreenTest {
     var nextPage: Int? = null
     composeTestRule.setContent {
       HomeScreen(
-        uiState = HomeUiStateTestData.loadedState,
+        uiState = HomeUiStateMockData.loadedState,
         onScrollToEnd = { nextPage = it }
       )
     }
 
-    val lastProductId = HomeUiStateTestData.loadedState.homeUiModels
+    val lastProductId = HomeUiStateMockData.loadedState.homeUiModels
       .flatMap { it.productUiModels }
       .last()
       .id
@@ -139,6 +138,6 @@ class HomeScreenTest {
         hasTestTag("${lastProductId}_$PRODUCT_MARK_ICON")
       )
 
-    assert(nextPage == HomeUiStateTestData.loadedState.nextPage)
+    assert(nextPage == HomeUiStateMockData.loadedState.nextPage)
   }
 }
