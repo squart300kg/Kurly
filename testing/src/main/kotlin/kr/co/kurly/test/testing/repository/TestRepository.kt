@@ -1,6 +1,9 @@
 package kr.co.kurly.test.testing.repository
 
+import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOf
 import kr.co.kurly.core.model.Paging
 import kr.co.kurly.core.model.PriceType
@@ -11,9 +14,15 @@ import kr.co.kurly.core.repository.dto.FavoriteMakingDtoRequest
 import kr.co.kurly.core.repository.dto.FavoriteMakingDtoResponse
 import kr.co.kurly.core.repository.dto.SectionDtoResponse
 import kr.co.kurly.core.repository.dto.SectionProductDtoResponse
+import java.util.LinkedList
 
 class TestProductRepository : ProductRepository {
   private val PRODUCT_COUNT = 6
+
+  private val cachedFavoriteMakingDtoResponses = MutableSharedFlow<LinkedList<FavoriteMakingDtoResponse>>(
+    replay = 1,
+    onBufferOverflow = BufferOverflow.DROP_OLDEST
+  )
 
   override fun getSections(page: Int): Flow<CommonDtoResponse<SectionDtoResponse>> {
     return flowOf(
@@ -37,7 +46,7 @@ class TestProductRepository : ProductRepository {
     return flowOf(
       CommonDtoResponse(
         data = List(6) {
-          val productIndex = it + PRODUCT_COUNT * (sectionId - 1)
+          val productIndex = it + PRODUCT_COUNT * sectionId
           SectionProductDtoResponse(
             id = productIndex,
             price = PriceType.Original(10000),
@@ -52,14 +61,34 @@ class TestProductRepository : ProductRepository {
   }
 
   override fun observeAllFavoriteIds(): Flow<List<FavoriteMakingDtoResponse>> {
-    return flowOf(emptyList())
+    return cachedFavoriteMakingDtoResponses
   }
 
   override suspend fun markFavorite(dtoRequest: FavoriteMakingDtoRequest) {
-
+    cachedFavoriteMakingDtoResponses.emit(
+      cachedFavoriteMakingDtoResponses.first()
+        .apply {
+          add(
+            FavoriteMakingDtoResponse(
+              sectionId = dtoRequest.sectionId,
+              productId = dtoRequest.productId
+            )
+          )
+        }
+    )
   }
 
   override suspend fun unmarkFavorite(dtoRequest: FavoriteMakingDtoRequest) {
-
+    cachedFavoriteMakingDtoResponses.emit(
+      cachedFavoriteMakingDtoResponses.first()
+        .apply {
+          remove(
+            FavoriteMakingDtoResponse(
+              sectionId = dtoRequest.sectionId,
+              productId = dtoRequest.productId
+            )
+          )
+        }
+    )
   }
 }

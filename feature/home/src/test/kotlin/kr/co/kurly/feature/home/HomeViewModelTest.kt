@@ -11,7 +11,6 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kr.co.kurly.core.domain.GetProductsUseCaseImpl
 import kr.co.kurly.test.testing.repository.TestProductRepository
-import kr.co.kurly.test.testing.usecase.TestGetProductUseCase
 import kr.co.kurly.test.testing.util.MainDispatcherRule
 import org.junit.Before
 import org.junit.Rule
@@ -96,6 +95,37 @@ class HomeViewModelTest {
     job.cancel()
   }
 
+  @Test
+  fun whenMarkedProduct_thenObservingAddedIt() = runTest {
+    val job = baseSideEffectJob()
 
+    advanceUntilIdle()
 
+    val (sectionIndex, productIndex) = 0 to 0
+
+    val favoriteState = viewModel.uiState.value
+      .homeUiModels[sectionIndex]
+      .productUiModels[productIndex].isFavorite
+
+    viewModel.setEvent(
+      HomeUiEvent.OnClickedUnmarkedFavorite(
+        sectionIndex, productIndex
+      )
+    )
+
+    advanceUntilIdle()
+    val updatedFavoriteState = viewModel.uiState.value
+      .homeUiModels[sectionIndex]
+      .productUiModels[productIndex].isFavorite
+
+    val expected = true
+    val actual = favoriteState != updatedFavoriteState
+
+    assertEquals(
+      expected,
+      actual
+    )
+
+    job.cancel()
+  }
 }
