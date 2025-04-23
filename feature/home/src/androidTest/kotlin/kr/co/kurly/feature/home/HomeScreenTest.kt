@@ -9,7 +9,7 @@ import androidx.compose.ui.test.performScrollToIndex
 import androidx.compose.ui.test.performScrollToNode
 import junit.framework.TestCase.assertEquals
 import kr.co.kurly.core.model.SectionType
-import kr.co.kurly.feature.home.model.HomeUiStateMockData
+import kr.co.kurly.feature.home.preview.HomeUiStateMockData
 import kr.co.kurly.test.testing.ui.TestTag.HORIZONTAL_ITEMS
 import kr.co.kurly.test.testing.ui.TestTag.PRODUCT_LIST
 import kr.co.kurly.test.testing.ui.TestTag.PRODUCT_MARK_ICON

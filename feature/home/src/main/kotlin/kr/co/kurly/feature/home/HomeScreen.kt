@@ -21,6 +21,8 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.util.trace
@@ -28,11 +30,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kr.co.kurly.core.model.SectionType
 import kr.co.kurly.core.ui.BasePullToRefresh
+import kr.co.kurly.core.ui.BaseSurface
 import kr.co.kurly.core.ui.CommonHorizontalDivider
 import kr.co.kurly.core.ui.ProductSection
 import kr.co.kurly.core.ui.model.LocalOnErrorMessageChanged
 import kr.co.kurly.core.ui.model.LocalOnLoadingStateChanged
 import kr.co.kurly.core.ui.util.PaginationLoadEffect
+import kr.co.kurly.feature.home.preview.HomeUiStatePreviewParam
 import kr.co.kurly.test.testing.ui.TestTag.GRID_ITEMS
 import kr.co.kurly.test.testing.ui.TestTag.HORIZONTAL_ITEMS
 import kr.co.kurly.test.testing.ui.TestTag.PRODUCT_LIST
@@ -245,4 +249,18 @@ fun HomeScreen(
     isRefresh = uiState.isRefresh,
     onPullToRefresh = onPullToRefresh
   )
+}
+
+@Preview
+@Composable
+fun HomeScreenPreview(
+  @PreviewParameter(HomeUiStatePreviewParam::class)
+  homeUiStatePreviewParam: HomeUiState
+) {
+  BaseSurface {
+    HomeScreen(
+      uiState = homeUiStatePreviewParam
+    )
+
+  }
 }

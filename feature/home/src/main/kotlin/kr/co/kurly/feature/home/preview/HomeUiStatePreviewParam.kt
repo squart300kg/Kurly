@@ -1,5 +1,6 @@
-package kr.co.kurly.feature.home.model
+package kr.co.kurly.feature.home.preview
 
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import kotlinx.collections.immutable.persistentListOf
 import kr.co.kurly.core.model.PriceType
 import kr.co.kurly.core.model.SectionType
@@ -11,6 +12,16 @@ import kr.co.kurly.core.ui.ProductUiModel
 import kr.co.kurly.feature.home.HomeUiModel
 import kr.co.kurly.feature.home.HomeUiState
 import kr.co.kurly.feature.home.HomeUiType
+
+class HomeUiStatePreviewParam : PreviewParameterProvider<HomeUiState> {
+  override val values: Sequence<HomeUiState> = sequenceOf(
+    HomeUiState(uiType = HomeUiType.NONE),
+    HomeUiState(
+      uiType = HomeUiType.LOADED,
+      homeUiModels = HomeUiStateMockData.loadedState.homeUiModels
+      )
+  )
+}
 
 object HomeUiStateMockData {
   val PRODUCT_COUNT = 6
