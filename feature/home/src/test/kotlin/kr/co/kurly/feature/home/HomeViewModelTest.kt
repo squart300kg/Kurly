@@ -6,7 +6,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.TestScope
-import kotlinx.coroutines.test.advanceTimeBy
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kr.co.kurly.core.domain.GetProductsUseCaseImpl
@@ -35,6 +34,7 @@ class HomeViewModelTest {
       productRepository = productRepository,
       getProductsUseCase = getProductUseCase
     )
+
   }
 
   private fun TestScope.baseSideEffectJob(): Job = launch {
@@ -68,6 +68,7 @@ class HomeViewModelTest {
     val job = baseSideEffectJob()
 
     advanceUntilIdle()
+
     val expected = viewModel.uiState.value.uiType
     val actual = HomeUiType.LOADED
 
@@ -96,36 +97,36 @@ class HomeViewModelTest {
   }
 
   @Test
-  fun whenMarkedProduct_thenObservingAddedIt() = runTest {
+  fun whenTriggerProductMark_thenChangeState() = runTest {
     val job = baseSideEffectJob()
 
     advanceUntilIdle()
 
-    val (sectionIndex, productIndex) = 0 to 0
+    viewModel.uiState.value.homeUiModels.forEachIndexed { homeUiModelIndex, homeUiModel ->
+      homeUiModel.productUiModels.forEachIndexed { productUiModelIndex, productUiModel ->
+        val favoriteState = productUiModel.isFavorite
 
-    val favoriteState = viewModel.uiState.value
-      .homeUiModels[sectionIndex]
-      .productUiModels[productIndex].isFavorite
+        viewModel.setEvent(
+          HomeUiEvent.OnClickedUnmarkedFavorite(
+            homeUiModel.section.id, productUiModel.id
+          )
+        )
 
-    viewModel.setEvent(
-      HomeUiEvent.OnClickedUnmarkedFavorite(
-        sectionIndex, productIndex
-      )
-    )
+        advanceUntilIdle()
+        val updatedFavoriteState = viewModel.uiState.value
+          .homeUiModels[homeUiModelIndex]
+          .productUiModels[productUiModelIndex]
+          .isFavorite
 
-    advanceUntilIdle()
-    val updatedFavoriteState = viewModel.uiState.value
-      .homeUiModels[sectionIndex]
-      .productUiModels[productIndex].isFavorite
+        val expected = true
+        val actual = favoriteState != updatedFavoriteState
 
-    val expected = true
-    val actual = favoriteState != updatedFavoriteState
-
-    assertEquals(
-      expected,
-      actual
-    )
-
+        assertEquals(
+          expected,
+          actual
+        )
+      }
+    }
     job.cancel()
   }
 }

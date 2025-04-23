@@ -1,10 +1,9 @@
 package kr.co.kurly.test.testing.repository
 
-import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.update
 import kr.co.kurly.core.model.Paging
 import kr.co.kurly.core.model.PriceType
 import kr.co.kurly.core.model.SectionType
@@ -14,15 +13,11 @@ import kr.co.kurly.core.repository.dto.FavoriteMakingDtoRequest
 import kr.co.kurly.core.repository.dto.FavoriteMakingDtoResponse
 import kr.co.kurly.core.repository.dto.SectionDtoResponse
 import kr.co.kurly.core.repository.dto.SectionProductDtoResponse
-import java.util.LinkedList
 
 class TestProductRepository : ProductRepository {
   private val PRODUCT_COUNT = 6
 
-  private val cachedFavoriteMakingDtoResponses = MutableSharedFlow<LinkedList<FavoriteMakingDtoResponse>>(
-    replay = 1,
-    onBufferOverflow = BufferOverflow.DROP_OLDEST
-  )
+  private val cachedFavoriteMakingDtoResponses = MutableStateFlow<List<FavoriteMakingDtoResponse>>(emptyList())
 
   override fun getSections(page: Int): Flow<CommonDtoResponse<SectionDtoResponse>> {
     return flowOf(
@@ -65,30 +60,28 @@ class TestProductRepository : ProductRepository {
   }
 
   override suspend fun markFavorite(dtoRequest: FavoriteMakingDtoRequest) {
-    cachedFavoriteMakingDtoResponses.emit(
-      cachedFavoriteMakingDtoResponses.first()
-        .apply {
-          add(
-            FavoriteMakingDtoResponse(
-              sectionId = dtoRequest.sectionId,
-              productId = dtoRequest.productId
-            )
+    cachedFavoriteMakingDtoResponses.update {
+      it.toMutableList().apply {
+        add(
+          FavoriteMakingDtoResponse(
+            sectionId = dtoRequest.sectionId,
+            productId = dtoRequest.productId
           )
-        }
-    )
+        )
+      }
+    }
   }
 
   override suspend fun unmarkFavorite(dtoRequest: FavoriteMakingDtoRequest) {
-    cachedFavoriteMakingDtoResponses.emit(
-      cachedFavoriteMakingDtoResponses.first()
-        .apply {
-          remove(
-            FavoriteMakingDtoResponse(
-              sectionId = dtoRequest.sectionId,
-              productId = dtoRequest.productId
-            )
+    cachedFavoriteMakingDtoResponses.update {
+      it.toMutableList().apply {
+        remove(
+          FavoriteMakingDtoResponse(
+            sectionId = dtoRequest.sectionId,
+            productId = dtoRequest.productId
           )
-        }
-    )
+        )
+    }
+  }
   }
 }
