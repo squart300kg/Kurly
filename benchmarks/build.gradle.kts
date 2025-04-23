@@ -11,6 +11,5 @@ android {
 }
 
 dependencies {
-  api(project(":testing"))
-
+  implementation(project(":testing"))
 }

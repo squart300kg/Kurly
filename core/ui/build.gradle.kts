@@ -10,7 +10,7 @@ android {
   defaultConfig { }
 
   dependencies {
-    api(project(":core:model"))
-    api(project(":testing"))
+    implementation(project(":core:model"))
+    implementation(project(":testing"))
   }
 }

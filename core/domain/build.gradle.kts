@@ -9,7 +9,6 @@ android {
   defaultConfig { }
 
   dependencies {
-    api(project(":core:model"))
     api(project(":core:repository"))
   }
 }

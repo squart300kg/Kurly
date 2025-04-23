@@ -9,9 +9,9 @@ android {
   defaultConfig { }
 
   dependencies {
-    api(project(":core:model"))
-    api(project(":core:domain"))
-    api(project(":core:repository"))
+    implementation(project(":core:model"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:repository"))
 
     implementation(libs.androidx.test.rules)
     implementation(libs.kotlinx.coroutines.test)
