@@ -90,14 +90,19 @@ fun ProductSection(
           ),
         painter = painterResource(
           if (productUiModel.isFavorite) R.drawable.ic_btn_heart_on
-          else R.drawable.ic_btn_heart_off),
+          else R.drawable.ic_btn_heart_off
+        ),
         contentDescription = null
       )
     }
 
     Text(
       text = productUiModel.name,
-      maxLines = 2,
+      maxLines =
+      when (productUiModel.productSectionType) {
+        ProductSectionType.NORMAL -> 2
+        ProductSectionType.WIDTH_EXPANDED -> 1
+      },
       overflow = TextOverflow.Ellipsis,
     )
 

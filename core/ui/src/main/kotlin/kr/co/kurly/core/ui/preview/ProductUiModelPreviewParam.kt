@@ -12,7 +12,7 @@ class ProductUiModelPreviewParam : PreviewParameterProvider<ProductUiModel> {
     ProductUiModel(
       id = 1,
       image = "https://img-cf.kurly.com/shop/data/goods/165303902534l0.jpg",
-      name = "맛있는 바나나",
+      name = "맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!",
       isFavorite = false,
       productSectionType = ProductSectionType.NORMAL,
       priceUiModel = PriceUiModel(
@@ -23,7 +23,7 @@ class ProductUiModelPreviewParam : PreviewParameterProvider<ProductUiModel> {
     ProductUiModel(
       id = 1,
       image = "https://img-cf.kurly.com/shop/data/goods/165303902534l0.jpg",
-      name = "맛있는 바나나",
+      name = "맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!",
       isFavorite = true,
       productSectionType = ProductSectionType.NORMAL,
       priceUiModel = PriceUiModel(
@@ -38,7 +38,7 @@ class ProductUiModelPreviewParam : PreviewParameterProvider<ProductUiModel> {
     ProductUiModel(
       id = 1,
       image = "https://img-cf.kurly.com/shop/data/goods/165303902534l0.jpg",
-      name = "맛있는 바나나",
+      name = "맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!",
       isFavorite = false,
       productSectionType = ProductSectionType.WIDTH_EXPANDED,
       priceUiModel = PriceUiModel(
@@ -50,7 +50,7 @@ class ProductUiModelPreviewParam : PreviewParameterProvider<ProductUiModel> {
       id = 1,
 
       image = "https://img-cf.kurly.com/shop/data/goods/165303902534l0.jpg",
-      name = "맛있는 바나나",
+      name = "맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!맛있는 바나나? 특별 세일!!!",
       isFavorite = true,
       productSectionType = ProductSectionType.WIDTH_EXPANDED,
       priceUiModel = PriceUiModel(
