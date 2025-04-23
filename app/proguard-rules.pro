@@ -1,2 +1,2 @@
--keep class kr.co.kurly.** { *; }
--dontwarn kr.co.kurly.**
+-keep class kr.co.kurly.core.network.model.** { *; }
+-keep class kr.co.kurly.core.model.Paging { *; }
