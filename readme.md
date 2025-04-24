@@ -38,14 +38,13 @@
 
 ## 5. BaselineProfile 성능 측정 결과
 홈 화면의 성능 개선을 위해 BaselineProfile 생성 후, 벤치마크를 측정한 결과입니다.
+![벤치마크 결과.png](readme-image/%EB%B2%A4%EC%B9%98%EB%A7%88%ED%81%AC%20%EA%B2%B0%EA%B3%BC.png)
 
-![벤치마크 결과.png](readme-image/%E1%84%87%E1%85%A6%E1%86%AB%E1%84%8E%E1%85%B5%E1%84%86%E1%85%A1%E1%84%8F%E1%85%B3%20%E1%84%80%E1%85%A7%E1%86%AF%E1%84%80%E1%85%AA.png)
 
 **[추가 분섟]**
 frameOverrunMs가 음수가 아닌 양수입니다. 이는 1 frame의 렌더링 시간이 16ms보다 크다는 의미입니다. 개선을 위해, Composable함수들을 점검해봤으나,
 음수로 만들지는 못하였습니다. 다만, '이미지 로딩'에서 개선 포인트가 있다는걸 알게됐고, 이미지 로딩하는 부분을 제거한 후, 벤치마크 측정했으며 그 결과는 아래와 같습니다.
-
-![이미지 제거 후의 Benchmark.png](readme-image/%E1%84%8B%E1%85%B5%E1%84%86%E1%85%B5%E1%84%8C%E1%85%B5%20%E1%84%8C%E1%85%A6%E1%84%80%E1%85%A5%20%E1%84%92%E1%85%AE%E1%84%8B%E1%85%B4%20Benchmark.png)
+![이미지 제거 후의 Benchmark.png](readme-image/%EC%9D%B4%EB%AF%B8%EC%A7%80%20%EC%A0%9C%EA%B1%B0%20%ED%9B%84%EC%9D%98%20Benchmark.png)
 
 이미지를 제거했을 경우, AOT컴파일 기준 1 frame 렌더링 초과 시간이 약 1ms로 성능이 크게 개선됐고, 이미지가 큰 영향을 준다는 것을 알 수 있습니다. 
 또한 금년도 06월 17일날 Android Droid Nights 연사자로 참여합니다. 연사 주제로 'Benchmark와 Baseline Profile을 활용한 LazyColum의 성능 개선'을 선택했는데요. 
