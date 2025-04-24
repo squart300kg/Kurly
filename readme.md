@@ -41,6 +41,7 @@
 ![BenchmarkResult.png](readme-image/BenchmarkResult.png)
 
 **[추가 분석]**
+
 frameOverrunMs가 음수가 아닌 양수입니다. 이는 1 frame의 렌더링 시간이 16ms보다 크다는 의미입니다. 개선을 위해, Composable함수들을 점검해봤으나,
 음수로 만들지는 못하였습니다. 다만, '이미지 로딩'에서 개선 포인트가 있다는걸 알게됐고, 이미지 로딩하는 부분을 제거한 후, 벤치마크 측정했으며 그 결과는 아래와 같습니다.
 ![BenchmarkResultAfterRemovingImage.png](readme-image/BenchmarkResultAfterRemovingImage.png)
