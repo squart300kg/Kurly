@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -15,13 +13,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.res.dimensionResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import coil.compose.rememberAsyncImagePainter
-import kr.co.kurly.core.ui.R
 import kr.co.kurly.core.ui.preview.ProductUiModelPreviewParam
 import kr.co.kurly.test.testing.ui.TestTag.PRODUCT_ITEM
 import kr.co.kurly.test.testing.ui.TestTag.PRODUCT_MARK_ICON
@@ -56,8 +52,7 @@ fun ProductSection(
       val imageModifier by rememberUpdatedState(
         when (productUiModel.productSectionType) {
           ProductSectionType.NORMAL -> Modifier
-            .widthIn(max = dimensionResource(R.dimen.product_width))
-            .heightIn(max = dimensionResource(R.dimen.product_height))
+            .aspectRatio(3f / 4f)
           ProductSectionType.WIDTH_EXPANDED -> Modifier
             .fillMaxWidth()
             .aspectRatio(3f / 2f)
