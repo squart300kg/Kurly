@@ -45,6 +45,9 @@
 frameOverrunMs가 음수가 아닌 양수입니다. 이는 1 frame의 렌더링 시간이 16ms보다 크다는 의미입니다. 개선을 위해, Composable함수들을 점검해봤으나,
 음수로 만들지는 못하였습니다. 다만, '이미지 로딩'에서 개선 포인트가 있다는걸 알게됐고, 이미지 로딩하는 부분을 제거한 후, 벤치마크 측정했으며 그 결과는 아래와 같습니다.
 ![BenchmarkResultAfterRemovingImage.png](readme-image/BenchmarkResultAfterRemovingImage.png)
-이미지를 제거했을 경우, AOT컴파일 기준 1 frame 렌더링 초과 시간이 약 1ms로 성능이 크게 개선됐고, 이미지가 큰 영향을 준다는 것을 알 수 있습니다. 
-또한 금년도 06월 17일날 Android Droid Nights 연사자로 참여합니다. 연사 주제로 'Benchmark와 Baseline Profile을 활용한 LazyColum의 성능 개선'을 선택했는데요. 
-따라서 coil을 활용한 이미지 렌더링 부분 또한 추후 깊이 파볼 예정입니다.
+
+이미지를 제거했을 경우, AOT컴파일 기준 1 frame 렌더링 초과 시간이 약 1ms로 성능이 크게 개선됐고, 이미지가 큰 영향을 준다는 것을 알 수 있습니다.
+물론 이미지 렌더링으로 성능을 개선하지는 못했습니다만, 금년도 06월 17일날 Android Droid Nights 연사자로 참여하는 만큼, coil을 활용한 이미지 렌더링을 최적화하는 방법에 대해 추가 연구를 진행하려 합니다.
+
+ps. 연사 주제로 'Benchmark와 Baseline Profile을 활용한 LazyColum의 성능 개선'에 대해 진행합니다. 
+
