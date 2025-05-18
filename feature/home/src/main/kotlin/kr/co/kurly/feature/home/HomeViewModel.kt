@@ -118,6 +118,8 @@ class HomeViewModel @Inject constructor(
         }
         .catch { setErrorState(it) }
         .collect { domainResponse ->
+          println("testLog, viewmodel, domainResponse : $domainResponse")
+
           val favoriteIds = cachedProductFavoriteIds.first()
           val homeUiModels = when (loadType) {
             is HomeUiSideEffect.Load.First,
