@@ -85,8 +85,8 @@ class HomeViewModelTest {
     val job = baseSideEffectJob()
 
     advanceUntilIdle()
-    val expected = HomeUiType.LOADED
-    val actual = viewModel.uiState.value.uiType
+    val expected = true
+    val actual = viewModel.uiState.value.homeUiModels.size >= 1
 
     assertEquals(
       expected,
