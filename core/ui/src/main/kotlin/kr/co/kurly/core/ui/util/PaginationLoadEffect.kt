@@ -9,23 +9,21 @@ import androidx.compose.runtime.remember
 
 @Composable
 fun PaginationLoadEffect(
-    listState: LazyListState,
-    nextPage: Int?,
-    onScrollToEnd: (nextPage: Int) -> Unit
+  listState: LazyListState,
+  onScrollToEnd: () -> Unit,
+  bufferItemCount: Int = 5
 ) {
-  with(listState.layoutInfo) {
-    if (visibleItemsInfo.lastOrNull() != null && totalItemsCount != 0) {
-      val isScrolledToTheEnd by remember(this) {
-        derivedStateOf {
-          visibleItemsInfo.lastOrNull()?.index == totalItemsCount - 1
-        }
-      }
+  val shouldLoadMore by remember {
+    derivedStateOf {
+      val layoutInfo = listState.layoutInfo
+      val lastVisibleItemIndex = layoutInfo.visibleItemsInfo.lastOrNull()?.index ?: return@derivedStateOf false
+      val totalItemCount = layoutInfo.totalItemsCount
 
-      LaunchedEffect(isScrolledToTheEnd, nextPage) {
-        if (isScrolledToTheEnd && nextPage != null) {
-          onScrollToEnd(nextPage)
-        }
-      }
+      totalItemCount != 0 &&
+        lastVisibleItemIndex >= totalItemCount - bufferItemCount
     }
+  }
+  LaunchedEffect(shouldLoadMore) {
+    if (shouldLoadMore) onScrollToEnd()
   }
 }

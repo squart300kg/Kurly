@@ -138,6 +138,6 @@ class HomeScreenTest {
         hasTestTag("${lastProductId}_$PRODUCT_MARK_ICON")
       )
 
-    assert(nextPage == HomeUiStateMockData.loadedState.nextPage)
+    assert(nextPage == HomeUiStateMockData.loadedState.currentPage)
   }
 }

@@ -26,7 +26,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.util.trace
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import kr.co.kurly.core.model.SectionType
@@ -69,8 +68,8 @@ fun HomeScreen(
     onPullToRefresh = {
       viewModel.setEvent(HomeUiEvent.OnPullToRefresh)
     },
-    onScrollToEnd = { nextPage ->
-      viewModel.setEvent(HomeUiEvent.OnScrolledToEnd(nextPage))
+    onScrollToEnd = {
+      viewModel.setEvent(HomeUiEvent.OnScrolledToEnd)
     }
   )
 
@@ -89,7 +88,7 @@ fun HomeScreen(
 fun HomeScreen(
   modifier: Modifier = Modifier,
   uiState: HomeUiState,
-  onScrollToEnd: (nextPage: Int) -> Unit = {},
+  onScrollToEnd: () -> Unit = {},
   onClickedMarkedFavorite: (sectionId: Int, productId: Int) -> Unit = { _, _ -> },
   onClickedUnmarkedFavorite: (sectionId: Int, productId: Int) -> Unit = { _, _ -> },
   onPullToRefresh: () -> Unit = {},
@@ -98,8 +97,7 @@ fun HomeScreen(
   val listState = rememberLazyListState()
   PaginationLoadEffect(
     listState = listState,
-    nextPage = uiState.nextPage,
-    onScrollToEnd = { onScrollToEnd(it) }
+    onScrollToEnd = onScrollToEnd
   )
 
   val pullToRefreshState = rememberPullToRefreshState()

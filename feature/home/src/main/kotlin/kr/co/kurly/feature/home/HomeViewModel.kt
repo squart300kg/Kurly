@@ -32,7 +32,7 @@ class HomeViewModel @Inject constructor(
   override fun handleEvent(event: HomeUiEvent) {
     when (event) {
       is HomeUiEvent.OnScrolledToEnd -> {
-        setEffect { HomeUiSideEffect.Load.More(event.nextPage) }
+        setEffect { HomeUiSideEffect.Load.More }
       }
       is HomeUiEvent.OnPullToRefresh -> {
         setEffect { HomeUiSideEffect.Load.Refresh }
@@ -91,12 +91,19 @@ class HomeViewModel @Inject constructor(
 
   fun fetchData(loadType: HomeUiSideEffect.Load) {
     viewModelScope.launch {
-      getProductsUseCase(
-        page = when (loadType) {
-          is HomeUiSideEffect.Load.First,
-          is HomeUiSideEffect.Load.Refresh -> 1
-          is HomeUiSideEffect.Load.More -> loadType.pageId
+      when (loadType) {
+        is HomeUiSideEffect.Load.First,
+        is HomeUiSideEffect.Load.Refresh -> {
+          setState { copy(currentPage = 1) }
         }
+        is HomeUiSideEffect.Load.More -> {
+          uiState.value.hasNextPage?.let { if (!it) return@launch }
+          setState { copy(currentPage = currentPage + 1) }
+        }
+      }
+
+      getProductsUseCase(
+        page = uiState.value.currentPage
       )
         .onStart {
           setState {
@@ -118,8 +125,6 @@ class HomeViewModel @Inject constructor(
         }
         .catch { setErrorState(it) }
         .collect { domainResponse ->
-          println("testLog, viewmodel, domainResponse : $domainResponse")
-
           val favoriteIds = cachedProductFavoriteIds.first()
           val homeUiModels = when (loadType) {
             is HomeUiSideEffect.Load.First,
@@ -135,7 +140,7 @@ class HomeViewModel @Inject constructor(
             copy(
               uiType = HomeUiType.LOADED,
               homeUiModels = homeUiModels.applyWithFavoriteIds(favoriteIds),
-              nextPage = domainResponse.nextPage
+              hasNextPage = domainResponse.nextPage != null
             )
           }
         }
