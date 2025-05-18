@@ -22,7 +22,7 @@ import kr.co.kurly.core.ui.CenterErrorDialogMessage
 import kr.co.kurly.core.ui.model.LocalOnErrorMessageChanged
 import kr.co.kurly.core.ui.model.LocalOnLoadingStateChanged
 import kr.co.kurly.feature.home.HomeScreen
-
+//
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
