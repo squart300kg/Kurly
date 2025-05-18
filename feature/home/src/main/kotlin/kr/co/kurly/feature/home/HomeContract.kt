@@ -54,24 +54,23 @@ data class HomeUiModel(
 data class HomeUiState(
   val uiType: HomeUiType = HomeUiType.NONE,
   val homeUiModels: ImmutableList<HomeUiModel> = persistentListOf(),
-  val nextPage: Int? = null,
+  val currentPage: Int = 0,
+  val hasNextPage: Boolean? = null,
   val isLoading: Boolean = false,
   val isRefresh: Boolean = false,
 ) : UiState
 
 sealed interface HomeUiEvent : UiEvent {
-  @JvmInline
-  value class OnScrolledToEnd(val nextPage: Int) : HomeUiEvent
+  data object OnScrolledToEnd : HomeUiEvent
   data object OnPullToRefresh : HomeUiEvent
   data class OnClickedMarkedFavorite(val sectionId: Int, val productId: Int) : HomeUiEvent
   data class OnClickedUnmarkedFavorite(val sectionId: Int, val productId: Int) : HomeUiEvent
-
 }
 
 sealed interface HomeUiSideEffect : UiSideEffect {
   sealed interface Load : HomeUiSideEffect {
     data object First : Load
     data object Refresh : Load
-    data class More(val pageId: Int) : Load
+    data object More : Load
   }
 }

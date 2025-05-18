@@ -52,8 +52,8 @@ class HomeViewModelTest {
     val job = Job()
 
     advanceUntilIdle()
-    val expected = viewModel.uiState.value.uiType
-    val actual = HomeUiType.NONE
+    val expected = HomeUiType.NONE
+    val actual = viewModel.uiState.value.uiType
 
     assertEquals(
       expected,
@@ -69,8 +69,8 @@ class HomeViewModelTest {
 
     advanceUntilIdle()
 
-    val expected = viewModel.uiState.value.uiType
-    val actual = HomeUiType.LOADED
+    val expected = HomeUiType.LOADED
+    val actual = viewModel.uiState.value.uiType
 
     assertEquals(
       expected,
@@ -85,8 +85,8 @@ class HomeViewModelTest {
     val job = baseSideEffectJob()
 
     advanceUntilIdle()
-    val expected = viewModel.uiState.value.uiType
-    val actual = HomeUiType.LOADED
+    val expected = true
+    val actual = viewModel.uiState.value.homeUiModels.size >= 1
 
     assertEquals(
       expected,
@@ -118,8 +118,8 @@ class HomeViewModelTest {
           .productUiModels[productUiModelIndex]
           .isFavorite
 
-        val expected = true
-        val actual = favoriteState != updatedFavoriteState
+        val expected = favoriteState != updatedFavoriteState
+        val actual = true
 
         assertEquals(
           expected,

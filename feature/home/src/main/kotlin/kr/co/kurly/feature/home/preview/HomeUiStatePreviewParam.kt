@@ -64,6 +64,6 @@ object HomeUiStateMockData {
           )
         }
       ),
-    nextPage = 2
+    currentPage = 2
   )
 }
