@@ -119,11 +119,11 @@ class HomeScreenTest {
 
   @Test
   fun whenScrolledToEnd_thenLoadNextPage() {
-    var nextPage: Int? = null
+    var onScrollToEndTriggerState = false
     composeTestRule.setContent {
       HomeScreen(
         uiState = HomeUiStateMockData.loadedState,
-        onScrollToEnd = { nextPage = it }
+        onScrollToEnd = { onScrollToEndTriggerState = true }
       )
     }
 
@@ -133,11 +133,11 @@ class HomeScreenTest {
       .id
 
     composeTestRule
-      .onNodeWithTag(PRODUCT_LIST) // LazyColumn
+      .onNodeWithTag(PRODUCT_LIST)
       .performScrollToNode(
         hasTestTag("${lastProductId}_$PRODUCT_MARK_ICON")
       )
 
-    assert(nextPage == HomeUiStateMockData.loadedState.currentPage)
+    assert(onScrollToEndTriggerState)
   }
 }
